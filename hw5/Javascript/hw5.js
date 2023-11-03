@@ -1,11 +1,17 @@
 "use strict";
 
-let M = 100; // M server
-let T = 1; // T time 1 year
-let N = 40; // N subinterval
-let size = T / N; // size of each subinterval
 
-const simulateAttack = function () {
+const readData = function (){
+    let M = parseInt(document.getElementById("server").value);
+    let N = parseInt(document.getElementById("attacks").value);
+    simulateAttack(M,N);
+    const div = document.getElementById("container-form");
+    div.remove();
+};
+
+const simulateAttack = function (M,N) {
+    let T = 1; // T time 1 year
+    let size = T / N;
     let lambda = parseFloat((Math.random() * (N / T)).toFixed(4)); // lambda <= N/T
     let probAttack = parseFloat((size * lambda).toFixed(4)); // probAttack = lambda * (T/N)
     let listOfAttacks = []; // Resulting list of all attacks of M servers 
@@ -23,8 +29,7 @@ const simulateAttack = function () {
         listOfAttacks.push(nAttackResult);
         nAttackResult = {};
     }
-    let chart = initializeChar();
-    console.log(listOfAttacks);
+    let chart = initializeChar(M,N);
     for (let j = 0; j < M; j++) {
         let xValues = [];
         let yValues = [];
@@ -52,7 +57,7 @@ const drawGraph = function (chart, xValues, yValues) {
     chart.update();
 }
 
-const initializeChar = function () {
+const initializeChar = function (M,N) {
     let chart = new Chart(document.getElementById('chart').getContext('2d'), {
         type: 'line',
         data: {
@@ -60,9 +65,9 @@ const initializeChar = function () {
             datasets: []
         },
         options: {
-            title: { 
+            title: {
                 display: true,
-                text: 'Server M = ' + M + ' number of attacks N = ' + N ,
+                text: 'Server M = ' + M + ' number of attacks N = ' + N,
             },
             legend: {
                 display: false
@@ -85,5 +90,3 @@ const getRandomColor = function () {
     }
     return color;
 };
-
-simulateAttack();
