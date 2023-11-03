@@ -30,6 +30,11 @@ const simulateAttack = function (M,N) {
         nAttackResult = {};
     }
     let chart = initializeChar(M,N);
+    let maxNAttack = 0;
+    // Get max number of successful attacks 
+    for (let d of listOfAttacks)
+        maxNAttack = Math.max(d[N-1],maxNAttack);
+    chart.options.scales.yAxes = [{ ticks: { min: 0, max: maxNAttack } }];
     for (let j = 0; j < M; j++) {
         let xValues = [];
         let yValues = [];
@@ -44,14 +49,13 @@ const simulateAttack = function (M,N) {
 const drawGraph = function (chart, xValues, yValues) {
     let color = getRandomColor();
     let newDataset = {
-        label: 'Attack/Number',
+        label: 'Successful attacks/Number of attacks',
         fill: false,
         lineTension: 0,
         backgroundColor: color,
         borderColor: color,
         data: yValues
     };
-
     chart.data.datasets.push(newDataset);
     chart.data.labels = xValues;
     chart.update();
@@ -73,7 +77,6 @@ const initializeChar = function (M,N) {
                 display: false
             },
             scales: {
-                yAxes: [{ ticks: { min: 0, max: N } }],
                 yAxes: [{ ticks: { min: 0, max: N } }]
             }
         }
