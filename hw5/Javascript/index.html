@@ -8,25 +8,30 @@
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <style>
-    #container-chart1 {
-        width: 100%;
+    body {
+        position: relative;
+        box-sizing: border-box;
+    }
+    #container-flex{
         display: flex;
-        margin: 0 auto;
+        flex-wrap: wrap;
     }
 
-    #container-chart2 {
-        width: 100%;
-        margin: 0 auto;
-    }
-    #container-chart2 #histogram2{
-        margin: 0 auto;
-    }
-
-    canvas {
-        width: 50%;
-        max-width: 700px;
+    .container-chart {
+        resize: both;
+        overflow: auto;
+        border: 1px solid lightgray;
+        position: relative;
     }
 
+    #canvas1,
+    #canvas2,
+    #canvas3 {
+        width: 49%;
+        max-height: 500px;
+        margin: 20px auto;
+    }
+ 
     #container-form {
         margin: 0 auto;
         text-align: center;
@@ -56,12 +61,20 @@
             <button type="button" onclick="readData()">Generate chart</button>
         </form>
     </div>
-    <div id="container-chart1">
-        <canvas id="chart"></canvas>
-        <canvas id="histogram1"></canvas>
-    </div>
-    <div id="container-chart2">
-        <canvas id="histogram2"></canvas>
+
+
+    <div id="container-flex">
+        <div id="canvas1" class="container-chart">
+            <canvas id="chart"></canvas>
+        </div>
+        <div id="canvas2" class="container-chart">
+            <canvas id="histogram1"></canvas>
+        </div>
+    
+        <div id="canvas3" class="container-chart">
+            <canvas id="histogram2"></canvas>
+        </div>
+
     </div>
     <script src="hw5.js"></script>
 </body>

@@ -8,16 +8,15 @@ const readData = function () {
     let N = parseInt(document.getElementById("attacks").value);
     let lambda = parseFloat(document.getElementById("lambda").value); // lambda <= N/T
     let T = parseInt(document.getElementById("period").value)
-    simulateAttack(M, N, lambda, T);
+    simulateAttacks(M, N, lambda, T);
 };
 
 const destroyCanvas = function () {
     for (let c of canvasArr)
         c.destroy();
-
 };
 
-const simulateAttack = function (M, N, lambda, T) {
+const simulateAttacks = function (M, N, lambda, T) {
     let size = T / N;
     let probAttack = parseFloat((size * lambda).toFixed(4)); // probAttack = lambda * (T/N)
     let listOfAttacks = []; // Resulting list of all attacks of M servers 
@@ -151,7 +150,7 @@ const drawHistogram = function (xValues, yValues, N, nHistogram, randSubinterval
     if (nHistogram == 1)
         textTitle = "Histogram data at end of period T";
     else
-        textTitle = "Histogram data at random subinterval of T ( interval "+ randSubinterval +" of value "+ randSubinterval/N +" )";
+        textTitle = "Histogram data at random subinterval of T ( interval "+ randSubinterval +" of value "+ parseFloat((randSubinterval/N).toFixed(2)) +" )";
 
     let maxForYValue = 0;
     for (let i = 0; i < yValues.length; i++)
@@ -188,3 +187,48 @@ const drawHistogram = function (xValues, yValues, N, nHistogram, randSubinterval
     });
     canvasArr.push(histogram);
 };
+const chart = document.getElementById("chart");
+const histogram1 = document.getElementById("histogram1");
+const histogram2 = document.getElementById("histogram2");
+const canvas1 = document.getElementById("canvas1");
+const canvas2 = document.getElementById("canvas2");
+const canvas3 = document.getElementById("canvas3");
+
+// Move canvas 1
+chart.addEventListener("mousedown", () => {
+    chart.addEventListener("mousemove", update1);
+    window.addEventListener("mouseup", () => {
+        chart.removeEventListener("mousemove", update1);
+    });
+  });
+
+  function update1(ev) {
+    canvas1.style.setProperty("left", `${ev.x - 200}px`);
+    canvas1.style.setProperty("top", `${ev.y - 25}px`);
+  }
+
+  // Move canvas 2
+  histogram1.addEventListener("mousedown", () => {
+    histogram1.addEventListener("mousemove", update2);
+    window.addEventListener("mouseup", () => {
+        histogram1.removeEventListener("mousemove", update2);
+    });
+  });
+
+  function update2(ev) {
+    canvas2.style.setProperty("left", `${ev.x - 200}px`);
+    canvas2.style.setProperty("top", `${ev.y - 25}px`);
+  }
+
+  // Move canvas 3
+  histogram2.addEventListener("mousedown", () => {
+    histogram2.addEventListener("mousemove", update3);
+    window.addEventListener("mouseup", () => {
+        histogram2.removeEventListener("mousemove", update3);
+    });
+  });
+
+  function update3(ev) {
+    canvas3.style.setProperty("left", `${ev.x - 200}px`);
+    canvas3.style.setProperty("top", `${ev.y - 25}px`);
+  }

@@ -1,0 +1,20 @@
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\bin\Debug\hw5.exe.config
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\bin\Debug\hw5.exe
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\bin\Debug\hw5.pdb
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\obj\Debug\hw5.csproj.AssemblyReference.cache
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\obj\Debug\hw5.Form1.resources
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\obj\Debug\hw5.Properties.Resources.resources
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\obj\Debug\hw5.csproj.GenerateResource.cache
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\obj\Debug\hw5.csproj.CoreCompileInputs.cache
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\obj\Debug\hw5.exe
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\Test 2 hw5\hw5\hw5\obj\Debug\hw5.pdb
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\bin\Debug\hw5.exe.config
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\bin\Debug\hw5.exe
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\bin\Debug\hw5.pdb
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\obj\Debug\hw5.csproj.AssemblyReference.cache
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\obj\Debug\hw5.Form1.resources
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\obj\Debug\hw5.Properties.Resources.resources
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\obj\Debug\hw5.csproj.GenerateResource.cache
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\obj\Debug\hw5.csproj.CoreCompileInputs.cache
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\obj\Debug\hw5.exe
+C:\Users\wpres\Desktop\Generali\Universita\Sapienza\Statistics\hw5\C#\hw5\obj\Debug\hw5.pdb
