@@ -27,9 +27,10 @@ const simulateAttacks = function (M, N, lambda, T) {
             if (j == 0)
                 nAttackResult[j] = 0;
             else {
-                nAttackResult[j] = nAttackResult[j - 1];
                 if (p <= probAttack)
-                    nAttackResult[j]++;
+                    nAttackResult[j] = nAttackResult[j - 1] + 1;
+                else
+                    nAttackResult[j] = nAttackResult[j - 1];
             }
         }
         listOfAttacks.push(nAttackResult);
