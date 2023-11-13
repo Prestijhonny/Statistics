@@ -8,6 +8,29 @@
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <style>
+    body {
+        position: relative;
+        box-sizing: border-box;
+    }
+    #container-flex{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .container-chart {
+        resize: both;
+        overflow: auto;
+        border: 1px solid lightgray;
+        position: relative;
+    }
+
+    #canvas1,
+    #canvas2{
+        width: 49%;
+        max-height: auto;
+        margin: 20px auto;
+    }
+ 
     #container-form {
         margin: 0 auto;
         text-align: center;
@@ -16,19 +39,13 @@
 
     button {
         font-size: 16px;
-        margin: 20px;
     }
 
     #data {
         margin: 20px;
     }
 
-    #canvas-cont{
-        width: 1200px;
-        height: 800px;
-        margin: 0 auto;
-    }
-    p{
+    p {
         text-align: center;
         margin: 20px auto;
     }
@@ -43,16 +60,20 @@
             <input type="text" name="attacks" id="attacks">&emsp;&emsp;
             <label for="sec-score">S (sec score) </label>
             <input type="text" name="sec-score" id="sec-score">&emsp;&emsp;
-            <label for="unsec-score">P (unsec-score)</label>
+            <label for="unsec-score">P (unsec-score) P&#65308;0 </label>
             <input type="text" name="unsec-score" id="unsec-score">&emsp;&emsp;
             <label for="prob">Probability </label>
-            <input type="text" name="prob" id="prob">&emsp;&emsp;<br>
+            <input type="text" name="prob" id="prob">&emsp;&emsp;<br><br>
             <button type="button" onclick="readData()">Generate chart</button>
         </form>
     </div>
-    
-    <div id="canvas-cont">
-        <canvas id="chart"></canvas>
+    <div id="container-flex">
+        <div id="canvas1" class="container-chart">
+            <canvas id="chart"></canvas>
+        </div>
+        <div id="canvas2" class="container-chart">
+            <canvas id="histogram"></canvas>
+        </div>
     </div>
     <script src="hw6.js"></script>
 </body>

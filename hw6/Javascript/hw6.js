@@ -1,12 +1,20 @@
 "use strict";
 
+let canvasArr = [];
+
 const readData = function () {
+    destroyCanvas();
     const M = parseInt(document.getElementById("server").value);
     const N = parseInt(document.getElementById("attacks").value);
     const P = parseInt(document.getElementById("unsec-score").value);
     const S = parseInt(document.getElementById("sec-score").value);
     const prob = parseFloat(document.getElementById("prob").value);
     simulateAttacks(M, N, P, S, prob);
+};
+
+const destroyCanvas = function () {
+    for (let c of canvasArr)
+        c.destroy();
 };
 
 const simulateAttacks = function (M, N, P, S, prob) {
@@ -16,6 +24,7 @@ const simulateAttacks = function (M, N, P, S, prob) {
     let chart = initializeChar(M, N);
     let systemDiscarded = [];
     let secure = false;
+    let histogramData = {};
 
     for (let i = 0; i < M; i++)
         systemDiscarded[i] = 0;
@@ -32,15 +41,20 @@ const simulateAttacks = function (M, N, P, S, prob) {
             else
                 secScore += 1;
 
-            if (secScore == P && !secure)
-                systemDiscarded[i] = 1;
-            else if (secure == S) {
-                secure = true;
-            }
-
             attacks.push(secScore);
             numberOfAttacks.push(j);
+
+            if (secScore == P && !secure)
+                systemDiscarded[i] = 1;
+            else if (secure == S)
+                secure = true; 
+
         }
+        if (histogramData [secScore])
+            histogramData [secScore]++;
+        else
+            histogramData [secScore]= 1;
+        
         attacks.unshift(0);
         numberOfAttacks.push(numberOfAttacks.length);
         drawGraph(chart, numberOfAttacks, attacks);
@@ -53,16 +67,22 @@ const simulateAttacks = function (M, N, P, S, prob) {
     }
     drawGraph(chart, numberOfAttacks, ysLine);
     drawGraph(chart, numberOfAttacks, ypLine);
-
-    let precP = document.querySelectorAll("#canvas-cont p");
+    console.log(histogramData);
+    drawHistogram(Object.keys(histogramData), Object.values(histogramData));
+    let precP = document.querySelectorAll("p");
     if (precP.length > 0) {
         precP[0].remove();
     }
-
-    let result = document.getElementById("canvas-cont");
+    let systemInsecure = 0;
+    for (let i = 0; i < systemDiscarded.length; i++) {
+        if (systemDiscarded[i] == 1)
+            systemInsecure++;
+    }
+    let result = document.getElementById("container-flex");
     const p = document.createElement("p");
-    p.appendChild(document.createTextNode("Number of secure systems are "+ Math.random() +" and the probabilities of a system being discarded is " + + "%"));
+    p.appendChild(document.createTextNode("The probabilities of a system being discarded is " + parseFloat(((systemInsecure / M) * 100).toFixed(2)) + "%"));
     result.appendChild(p);
+
 };
 
 const getRandomColor = function () {
@@ -116,6 +136,51 @@ const initializeChar = function (M, N) {
             }
         }
     });
-
+    canvasArr.push(chart);
     return chart;
+};
+
+const drawHistogram = function (xValues, yValues) {
+    let color = getRandomColor();
+    let histogramData = {
+        labels: xValues,
+        datasets: [{
+            label: "Number of servers/Number of attacks",
+            backgroundColor: color,
+            borderColor: color,
+            borderWidth: 1,
+            data: yValues
+        }]
+    };
+    let histogram = new Chart(document.getElementById("histogram").getContext('2d'), {
+        type: 'horizontalBar',
+        data: histogramData,
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: "Number of system ",
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    ticks: { min: 0 },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Scores'
+                    }
+                }],
+                yAxes: [{
+                    ticks: { min: 0 },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of server'
+                    }
+                }]
+            }
+        }
+    });
+    canvasArr.push(histogram);
 };
