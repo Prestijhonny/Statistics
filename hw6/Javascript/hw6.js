@@ -34,6 +34,7 @@ const simulateAttacks = function (M, N, P, S, prob) {
         attacks = [];
         secScore = 0;
         secure = false;
+        attacks.push(0);
         for (let j = 0; j < N; j++) {
 
             if (Math.random() <= prob)
@@ -46,7 +47,7 @@ const simulateAttacks = function (M, N, P, S, prob) {
 
             if (secScore == P && !secure)
                 systemDiscarded[i] = 1;
-            else if (secure == S)
+            else if (secScore == S)
                 secure = true; 
 
         }
@@ -55,7 +56,6 @@ const simulateAttacks = function (M, N, P, S, prob) {
         else
             histogramData [secScore]= 1;
         
-        attacks.unshift(0);
         numberOfAttacks.push(numberOfAttacks.length);
         drawGraph(chart, numberOfAttacks, attacks);
     }
@@ -145,7 +145,7 @@ const drawHistogram = function (xValues, yValues) {
     let histogramData = {
         labels: xValues,
         datasets: [{
-            label: "Number of servers/Number of attacks",
+            label: "Scores/Number of system",
             backgroundColor: color,
             borderColor: color,
             borderWidth: 1,
@@ -169,14 +169,14 @@ const drawHistogram = function (xValues, yValues) {
                     ticks: { min: 0 },
                     scaleLabel: {
                         display: true,
-                        labelString: 'Scores'
+                        labelString: 'Number of server'
                     }
                 }],
                 yAxes: [{
                     ticks: { min: 0 },
                     scaleLabel: {
                         display: true,
-                        labelString: 'Number of server'
+                        labelString: 'Scores'
                     }
                 }]
             }

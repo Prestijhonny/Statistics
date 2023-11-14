@@ -166,7 +166,9 @@ namespace hw5
             chart1.Series.Clear();
             chart1.Legends.Clear();
             chart2.Series.Clear();
+            chart2.Legends.Clear();
             chart3.Series.Clear();
+            chart3.Legends.Clear();
 
             float[] xChart1 = getXChart1Values(periodTime, numberOfAttacks);
             int[] yChart1;
@@ -208,7 +210,7 @@ namespace hw5
                 if (yChart3.ContainsKey(yChart1[randIndx]))
                     yChart3[yChart1[randIndx]]++;
                 else
-                    yChart3.Add(yChart1[randIndx], 0);
+                    yChart3.Add(yChart1[randIndx], 1);
 
             }
             chart1.ChartAreas[0].AxisX.Title = "Subinterval of T";
