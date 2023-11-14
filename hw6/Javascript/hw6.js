@@ -68,7 +68,10 @@ const simulateAttacks = function (M, N, P, S, prob) {
     drawGraph(chart, numberOfAttacks, ysLine);
     drawGraph(chart, numberOfAttacks, ypLine);
     console.log(histogramData);
-    drawHistogram(Object.keys(histogramData), Object.values(histogramData));
+    let xHistogram = Object.keys(histogramData).sort(function(a, b) {
+        return a - b;
+    });
+    drawHistogram(xHistogram, Object.values(histogramData));
     let precP = document.querySelectorAll("p");
     if (precP.length > 0) {
         precP[0].remove();
