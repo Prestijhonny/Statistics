@@ -111,9 +111,9 @@
 
     //   --------------------
     // Function to generate Geometric Brownian Motion data
-    function generateGeometricBrownianMotion(numSteps, initialValue, drift, volatility) {
-      let numSteps = 100, initialValue = 0, volatility = 0.5;
-      let drift = ;
+    function generateGeometricBrownianMotion() {
+      let numSteps = 100, initialValue = 100, volatility = 0.2;
+      let drift = 0.05;
       const xValues = Array.from({ length: numSteps }, (_, i) => i);
       const yValues = [initialValue];
 
@@ -162,7 +162,7 @@
     }
 
     // Generate the data
-    generateBrownianMotion(numSteps, initialValue, volatility);
+    generateGeometricBrownianMotion();
   </script>
 </body>
 
