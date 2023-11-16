@@ -174,7 +174,7 @@
       for (let i = 1; i < numSteps; i++) {
         const randomStep = Math.random();
         const priceChange = drift + (volatility * randomStep);
-        const newValue = yValues[i - 1] * Math.exp(priceChange);
+        const newValue = yValues[0] * Math.exp(priceChange);
         yValues.push(newValue);
       }
       let labelGraph = "Geometric Brownian Motion";
