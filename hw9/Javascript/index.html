@@ -16,6 +16,7 @@
       <h1>
         Choose the Stochastic Differential Equation (SDE):
         <select id="SDE" name="SDE">
+          <option value="empty">-//-</option>
           <option value="AB">Arithmetic Brownian</option>
           <option value="GB">Geometric Brownian (BlackS-choles)</option>
           <option value="OU">Ornstein-Uhlenbeck (mean-reverting)</option>
@@ -56,19 +57,72 @@
   </div>
 
   <script>
-    document.getElementById("SDE").addEventListener("change", function () {
-      var selectedAlg = this.value;
-      alert("You selected: " + selectedAlg);
-    });
     const chartID = "myCanvas";
     const canvas1 = document.getElementById("canvas1");
     const myCanvas = document.getElementById("myCanvas");
     const ctx = myCanvas.getContext("2d");
     let canvasArr = [];
 
-    const destroyCanvas = function () {
+    function destroyCanvas() {
       for (let c of canvasArr) c.destroy();
-    };
+    }
+
+    document.getElementById("SDE").addEventListener("change", function () {
+      destroyCanvas();
+      var selectedAlg = this.value;
+
+      switch (selectedAlg) {
+        case "empty":
+          console.log("No algorithm selected");
+          break;
+
+        case "AB":
+          console.log("Arithmetic Brownian selected");
+          generateArithmeticBrownianMotion();
+          break;
+
+        case "GB":
+          console.log("Geometric Brownian selected");
+          generateGeometricBrownianMotion();
+          break;
+
+        case "OU":
+          console.log("Ornstein-Uhlenbeck selected");
+
+          // Add your code for Ornstein-Uhlenbeck here
+          break;
+
+        case "V":
+          console.log("Vasicek selected");
+          // Add your code for Vasicek here
+          break;
+
+        case "HW":
+          console.log("Hull-White selected");
+          // Add your code for Hull-White here
+          break;
+
+        case "CIR":
+          console.log("Cox-Ingersoll-Ross selected");
+          // Add your code for Cox-Ingersoll-Ross here
+          break;
+
+        case "BK":
+          console.log("Black-Karasinski selected");
+          // Add your code for Black-Karasinski here
+          break;
+
+        case "H":
+          console.log("Heston selected");
+          // Add your code for Heston here
+          break;
+
+        case "CM":
+          console.log("Chen model selected");
+          // Add your code for Chen model here
+          break;
+      }
+    });
 
     // Move canvas 1
     myCanvas.addEventListener("mousedown", () => {
@@ -119,7 +173,7 @@
 
       for (let i = 1; i < numSteps; i++) {
         const randomStep = Math.random();
-        const priceChange = drift + volatility * randomStep;
+        const priceChange = drift + (volatility * randomStep);
         const newValue = yValues[i - 1] * Math.exp(priceChange);
         yValues.push(newValue);
       }
@@ -160,9 +214,6 @@
       });
       canvasArr.push(myChart);
     }
-
-    // Generate the data
-    generateGeometricBrownianMotion();
   </script>
 </body>
 
