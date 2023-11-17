@@ -16,6 +16,7 @@
       <h1>
         Choose the Stochastic Differential Equation (SDE):
         <select id="SDE" name="SDE">
+          <option value="empty"> ------ </option>
           <option value="AB">Arithmetic Brownian</option>
           <option value="GB">Geometric Brownian (BlackS-choles)</option>
           <option value="OU">Ornstein-Uhlenbeck (mean-reverting)</option>
@@ -55,117 +56,7 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById("SDE").addEventListener("change", function () {
-      var selectedAlg = this.value;
-      alert("You selected: " + selectedAlg);
-    });
-    const chartID = "myCanvas";
-    const canvas1 = document.getElementById("canvas1");
-    const myCanvas = document.getElementById("myCanvas");
-    const ctx = myCanvas.getContext("2d");
-    let canvasArr = [];
-
-    const destroyCanvas = function () {
-      for (let c of canvasArr) c.destroy();
-    };
-
-    // Move canvas 1
-    myCanvas.addEventListener("mousedown", () => {
-      myCanvas.addEventListener("mousemove", update1);
-      window.addEventListener("mouseup", () => {
-        myCanvas.removeEventListener("mousemove", update1);
-      });
-    });
-
-    function update1(ev) {
-      canvas1.style.setProperty("left", `${ev.x - 200}px`);
-      canvas1.style.setProperty("top", `${ev.y - 25}px`);
-    }
-
-    function getRandomRGBAColor() {
-      const r = Math.floor(Math.random() * 256);
-      const g = Math.floor(Math.random() * 256);
-      const b = Math.floor(Math.random() * 256);
-      const a = Math.random();
-      return `rgba(${r}, ${g}, ${b}, ${a})`;
-    }
-
-    //   --------------------
-    // Function to generate Arithmetic Brownian Motion data
-    function generateBrownianMotion(
-      numSteps,
-      initialValue,
-      volatility,
-    ) {
-
-      const xValues = Array.from({ length: numSteps }, (_, i) => i);
-      const yValues = [initialValue];
-
-      for (let i = 1; i < numSteps; i++) {
-        const randomStep = Math.random();
-        const priceChange = randomStep * volatility - volatility / 2;
-        const newValue = yValues[i - 1] + priceChange;
-        yValues.push(newValue);
-      }
-      let labelGraph = "Arithmetic Brownian Motion";
-      drawGraph(xValues, yValues, labelGraph);
-    }
-
-    //   --------------------
-    // Function to generate Geometric Brownian Motion data
-    function generateGeometricBrownianMotion(numSteps, initialValue, drift, volatility) {
-
-      const xValues = Array.from({ length: numSteps }, (_, i) => i);
-      const yValues = [initialValue];
-
-      for (let i = 1; i < numSteps; i++) {
-        const randomStep = Math.random();
-        const priceChange = drift + volatility * randomStep;
-        const newValue = yValues[i - 1] * Math.exp(priceChange);
-        yValues.push(newValue);
-      }
-      let labelGraph = "Geometric Brownian Motion";
-      drawGraph(xValues, yValues, labelGraph);
-
-    }
-
-    const drawGraph = function (xValues, yValues, labelGraph) {
-      ctx.clearRect(0, 0, chartID.width, chartID.height);
-      const myChart = new Chart(chartID, {
-        type: "line",
-        data: {
-          labels: xValues,
-          datasets: [
-            {
-              label: labelGraph,
-              data: yValues,
-              borderColor: "green",
-              fill: false,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          elements: {
-            line: {
-              tension: 0.1,
-            },
-          },
-          legend: {
-            display: false,
-          },
-          tooltips: {
-            enabled: false,
-          },
-        },
-      });
-      canvasArr.push(myChart);
-    }
-
-    // Generate the data
-    generateBrownianMotion(numSteps, initialValue, volatility);
-  </script>
+  <script src="script.js"></script>
 </body>
 
 </html>

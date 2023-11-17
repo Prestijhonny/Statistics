@@ -30,14 +30,12 @@ document.getElementById("SDE").addEventListener("change", function () {
 
         case "OU":
             console.log("Ornstein-Uhlenbeck selected");
-            //   ---------------- theta, mu, sigma, X0, dt
-            stochasticEulerMethod(0.1, 0.5, 0.2, 0.1, 0.01, "Ornstein-Uhlenbeck");
+            generateOU();
             break;
 
         case "V":
             console.log("Vasicek selected");
-            //   ---------------- a,b,sigma,R0, dt
-            generateCIR_VAS(0.2, 0.05, 0.1, 0.03, 0.01, "Vasicek");
+            generateVasicek();
             break;
 
         case "HW":
@@ -47,12 +45,12 @@ document.getElementById("SDE").addEventListener("change", function () {
 
         case "CIR":
             console.log("Cox-Ingersoll-Ross selected");
-            generateCIR_VAS(0.1,0.05,0.02,0.03,0.01, "Cox-Ingersoll-Ross");
+            generateCoxIngersollRoss();
             break;
 
         case "BK":
             console.log("Black-Karasinski selected");
-            // Add your code for Heston here
+            generateBlackKarasinski();
             break;
 
         case "H":
@@ -91,17 +89,17 @@ function getRandomRGBAColor() {
 //   --------------------
 // Function to generate Arithmetic Brownian Motion data
 function generateArithmeticBrownianMotion() {
-    let numSteps = 100, initialValue = 0, volatility = 0.5;
+    let numSteps = 100, mu = 0.1, sigma = 0.2, X0 = 0, dt = 0.01;
 
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    const yValues = [initialValue];
+    const yValues = [X0];
 
-    for (let i = 1; i < numSteps; i++) {
-        const randomStep = Math.random();
-        const priceChange = randomStep * volatility - volatility / 2;
-        const newValue = yValues[i - 1] + priceChange;
-        yValues.push(newValue);
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const newValue = (mu * dt + sigma * dW);
+        yValues.push(yValues[i] + newValue);
     }
+
     let labelGraph = "Arithmetic Brownian Motion";
     drawGraph(xValues, yValues, labelGraph);
 }
@@ -109,60 +107,131 @@ function generateArithmeticBrownianMotion() {
 //   --------------------
 // Function to generate Geometric Brownian Motion data
 function generateGeometricBrownianMotion() {
-    const mu = 0.1;    // rendimento atteso
-    const sigma = 0.2;  // volatilità
-    const n = 100;      // numero di passi
-    const dt = 0.1;     // intervallo temporale tra i passi
-    const x0 = 100;     // valore iniziale
+    const mu = 1;
+    const sigma = 0.2;
+    const dt = 0.01;
+    const S0 = 1;
+    const numSteps = 100;
 
-    const xValues = Array.from({ length: x0 }, (_, i) => i);
-    let yValues = [x0];
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    const yValues = [S0];
 
-    for (let i = 0; i < n - 1; i++) {
-        const drift = (mu - (sigma ** 2) / 2) * dt;
-        const stochasticTerm = sigma * Math.sqrt(dt) * (Math.sqrt(-2 * Math.log(Math.random())) * Math.cos(2 * Math.PI * Math.random()));
-        const nextValue = yValues[i] * Math.exp(drift + stochasticTerm);
-        yValues.push(nextValue);
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const newValue = mu * yValues[i] * dt + sigma * yValues[i] * dW;
+        yValues.push(yValues[i] + newValue);
     }
     let labelGraph = "Geometric Brownian Motion";
     drawGraph(xValues, yValues, labelGraph);
 
 }
+
 //   --------------------
-// Function to generate general stocasti process, it takes as input a,b,X0,dt, T
+// Function to generate Ornstein-Uhlenbeck
+function generateOU() {
+    let theta = 1, mu = 0, sigma = Math.sqrt(2), X0 = -10, dt = 0.05;
+    let numSteps = 100;
+    let yValues = [X0];
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const k = theta * (mu - yValues[i]) * dt + sigma * dW;
+        yValues.push(yValues[i] + k);
+    }
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    drawGraph(xValues, yValues, "Ornstein-Uhlenbeck");
+}
+
+//   --------------------
+// Function to generate Vasicek
+function generateVasicek() {
+    let k = 0.2, theta = 0.05, sigma = 0.1, R0 = 0, dt = 0.01;
+    let numSteps = 100;
+    let yValues = [R0];
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const rt = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(dt) * dW;
+        yValues.push(yValues[i] + rt);
+    }
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    drawGraph(xValues, yValues, "Vasicek");
+}
+
+//   --------------------
+// Function to generate Hull-White
+function generateHullWhite() {
+    let numSteps = 100;
+    const theta1 = 0.02, theta2 = 0.01;
+    const a = 0.1, sigma = 0.02, R0 = 0.015, dt = 0.01;
+    let yValues = [R0];
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const k = ((theta1 + (theta2 * i)) - (a * yValues[i])) * dt + sigma * dW;
+        yValues.push(yValues[i] + k);
+    }
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    drawGraph(xValues, yValues, "Hull-White");
+}
+
+//   --------------------
+// Function to generate Cox-Ingersoll-Ross
+function generateCoxIngersollRoss() {
+    let numSteps = 100;
+    const k = 0.1, theta = 0.05, sigma = 0.02, R0 = 0.03, dt = 0.01;
+    let yValues = [R0];
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const res = k*(theta-yValues[i])*dt + sigma*Math.sqrt(yValues[i])*dW;
+        yValues.push(yValues[i] + res);
+    }
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    drawGraph(xValues, yValues, "Cox-Ingersoll-Ross");
+}
+
+//   --------------------
+// Function to generate Black-Karasinski
+function generateBlackKarasinski(){
+    let numSteps = 100;
+    const theta1 = 0.02, theta2 = 0.01 , a = 0.5, sigma = 0.02, R0 = 0.015, dt = 0.01;
+    let yValues = [R0];
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const res = ((theta1+(theta2*i))-(a*Math.log(yValues[i])))*dt + sigma*Math.sqrt(yValues[i])*dW;
+        yValues.push(yValues[i] + res);
+    }
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    drawGraph(xValues, yValues, "Black-Karasinski");
+}
+
+//   --------------------
+// Function to generate Heston
+function generateHeston(){
+    let numSteps = 100;
+    const theta1 = 0.02, theta2 = 0.01 , a = 0.5, sigma = 0.02, R0 = 0.015, dt = 0.01;
+    let yValues = [R0];
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution();
+        const res = ((theta1+(theta2*i))-(a*Math.log(yValues[i])))*dt + sigma*Math.sqrt(yValues[i])*dW;
+        yValues.push(yValues[i] + res);
+    }
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    drawGraph(xValues, yValues, "Heston");
+}
+
+//   --------------------
+// Function to generate general stocastics process, it takes as input a,b,X0,dt, T and can process any EDS
 function stochasticEulerMethod(a, b, X0, dt, labelGraph) {
     let numSteps = 100;
     let yValues = [X0];
 
     for (let i = 0; i < numSteps; i++) {
         const dW = Math.sqrt(dt) * normalDistribution();
-        const k = a*(b - yValues[i]) * dt + X0 * dW; // theta * (mu - X[i]) * dt + sigma * dW;
-        yValues.push(yValues[i] + k);
-    }
-    const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    drawGraph(xValues, yValues, labelGraph);
-}
-
-function generateCIR_VAS(a, b, X0, dt, label){
-    let numSteps = 100;
-    let yValues = [X0];
-
-    for (let i = 0; i < numSteps; i++) {
-        const dW = Math.sqrt(dt) * normalDistribution();
-        const k = a*(b - yValues[i]) * dt + X0 * dW* Math.sqrt(dt); // theta * (mu - X[i]) * dt + sigma * dW * sqrt(dt);
-        yValues.push(yValues[i] + k);
-    }
-    const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    drawGraph(xValues, yValues, label);
-}
-
-function generateHullWhite(){
-    let numSteps = 100;
-    let yValues = [X0];
-    const theta = 0.02;
-    for (let i = 0; i < numSteps; i++) {
-        const dW = Math.sqrt(dt) * normalDistribution();
-        const k = ((theta+0.01*i) - a*yValues[i]) * dt + X0 * dW; // theta * (mu - X[i]) * dt + sigma * dW;
+        const k = a * (b - yValues[i]) * dt + sigma * dW; // theta * (mu - X[i]) * dt + sigma * dW;
         yValues.push(yValues[i] + k);
     }
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
@@ -187,7 +256,7 @@ const drawGraph = function (xValues, yValues, labelGraph) {
                 {
                     label: labelGraph,
                     data: yValues,
-                    borderColor: getRandomRGBAColor(),
+                    borderColor: "#1E1E1E",
                     fill: false,
                 },
             ],
