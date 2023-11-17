@@ -60,7 +60,7 @@ document.getElementById("SDE").addEventListener("change", function () {
 
         case "CM":
             console.log("Chen model selected");
-            // Add your code for Chen model here
+            generateChen();
             break;
     }
 });
@@ -207,25 +207,47 @@ function generateBlackKarasinski(){
     drawGraph(xValues, yValues, "Black-Karasinski");
 }
 
-// Support function for Heston (Get Cox-Ingersoll-Ross value)
-
-
 //   --------------------
 // Function to generate Heston
 function generateHeston(){
     let numSteps = 100;
-    const mu = 0.05, k = 1, theta = 0.1, sigma = 0.2, S0 = 100, v0 = 0.2, dt = 0.01;
+    const mu = 0.05, k = 0.8, theta = 0.1, sigma = 0.2, S0 = 100, v0 = 0.2, dt = 0.01;
     let yValues = [S0];
     let v_t = [v0];
     for (let i = 0; i < numSteps; i++) {
         const dW1 = Math.sqrt(dt) * normalDistribution();
-        v_t.push(k*(theta-v_t[i])*dt+sigma*Math.sqrt(v_t[i])*dW1);
+        v_t.push((k*(theta-v_t[i])*dt+sigma*Math.sqrt(v_t[i])*dW1)+v_t[i]);
+        
         const dW2 = Math.sqrt(dt) * normalDistribution();
         const S_t = mu*yValues[i]*dt+ Math.sqrt(v_t[i])*yValues[i]*dW2;
         yValues.push(yValues[i] + S_t);
     }
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     drawGraph(xValues, yValues, "Heston");
+}
+
+//   --------------------
+// Function to generate Chen
+function generateChen(){
+    let numSteps = 100;
+    let R0 = 0.05, theta0 = 0.1, sigma0 = 0.05 ;
+    let yValues = [R0]; // r_t
+    let theta_t = [theta0];
+    let sigma_t = [sigma0];
+    let a = 0.2, m = 0.2, b = 0.1, mu = 0.8, v = 0.8 , g = 0.1, dt = 0.01 , k = 0.8;
+
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW1 = Math.sqrt(dt) * normalDistribution();
+        sigma_t.push((mu*(b-sigma_t[i])*dt + (m*Math.sqrt(sigma_t[i]))*dW1)+sigma_t[i]);
+        const dW2 = Math.sqrt(dt) * normalDistribution();
+        theta_t.push(theta_t[i]+(v*(g-theta_t[i])*dt + a*Math.sqrt(theta_t[i])*dW2));
+        const dW3 = Math.sqrt(dt) * normalDistribution();
+        const r_t = (yValues[i] + (k*(theta_t[i]-yValues[i])*dt+ Math.sqrt(yValues[i])*Math.sqrt(sigma_t[i])*dW3) );
+        yValues.push(yValues[i] + r_t);
+    }
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    drawGraph(xValues, yValues, "Chen");
 }
 
 //   --------------------
