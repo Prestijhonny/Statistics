@@ -234,7 +234,7 @@ function generateChen(){
     let yValues = [R0]; // r_t
     let theta_t = [theta0];
     let sigma_t = [sigma0];
-    let a = 0.2, m = 0.2, b = 0.1, mu = 0.8, v = 0.8 , g = 0.1, dt = 0.01 , k = 0.8;
+    let a = 0.1, m = 0.1, b = 0.05, mu = 0.2, v = 0.5 , g = 0.1, dt = 0.01 , k = 0.5;
 
 
     for (let i = 0; i < numSteps; i++) {
@@ -243,7 +243,7 @@ function generateChen(){
         const dW2 = Math.sqrt(dt) * normalDistribution();
         theta_t.push(theta_t[i]+(v*(g-theta_t[i])*dt + a*Math.sqrt(theta_t[i])*dW2));
         const dW3 = Math.sqrt(dt) * normalDistribution();
-        const r_t = (yValues[i] + (k*(theta_t[i]-yValues[i])*dt+ Math.sqrt(yValues[i])*Math.sqrt(sigma_t[i])*dW3) );
+        const r_t = ((k*(theta_t[i]-yValues[i])*dt+ Math.sqrt(yValues[i])*Math.sqrt(sigma_t[i])*dW3) );
         yValues.push(yValues[i] + r_t);
     }
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
