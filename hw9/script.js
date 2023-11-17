@@ -55,7 +55,7 @@ document.getElementById("SDE").addEventListener("change", function () {
 
         case "H":
             console.log("Heston selected");
-            // Add your code for Heston here
+            generateHeston();
             break;
 
         case "CM":
@@ -207,17 +207,22 @@ function generateBlackKarasinski(){
     drawGraph(xValues, yValues, "Black-Karasinski");
 }
 
+// Support function for Heston (Get Cox-Ingersoll-Ross value)
+
+
 //   --------------------
 // Function to generate Heston
 function generateHeston(){
     let numSteps = 100;
-    const theta1 = 0.02, theta2 = 0.01 , a = 0.5, sigma = 0.02, R0 = 0.015, dt = 0.01;
-    let yValues = [R0];
-
+    const mu = 0.05, k = 1, theta = 0.1, sigma = 0.2, S0 = 100, v0 = 0.2, dt = 0.01;
+    let yValues = [S0];
+    let v_t = [v0];
     for (let i = 0; i < numSteps; i++) {
-        const dW = Math.sqrt(dt) * normalDistribution();
-        const res = ((theta1+(theta2*i))-(a*Math.log(yValues[i])))*dt + sigma*Math.sqrt(yValues[i])*dW;
-        yValues.push(yValues[i] + res);
+        const dW1 = Math.sqrt(dt) * normalDistribution();
+        v_t.push(k*(theta-v_t[i])*dt+sigma*Math.sqrt(v_t[i])*dW1);
+        const dW2 = Math.sqrt(dt) * normalDistribution();
+        const S_t = mu*yValues[i]*dt+ Math.sqrt(v_t[i])*yValues[i]*dW2;
+        yValues.push(yValues[i] + S_t);
     }
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     drawGraph(xValues, yValues, "Heston");
