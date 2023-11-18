@@ -322,8 +322,8 @@ function generateChen() {
 }
 
 //   --------------------
-// Function to generate general stocastics process, it takes as input a,b,X0,dt, T and can process any EDS
-function stochasticEulerMethod(a, b, X0, dt, labelGraph) {
+// Function to generate general stocastics process, it takes as input a,b,sigma,X0,dt, T and can process any EDS
+function stochasticEulerMethod(a, b, X0, sigma, dt, labelGraph) {
     let numSteps = 100;
     let yValues = [X0];
 
@@ -334,6 +334,24 @@ function stochasticEulerMethod(a, b, X0, dt, labelGraph) {
     }
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     drawGraph(xValues, yValues, labelGraph);
+}
+
+//   --------------------
+// Function to generate general stocastics process, it takes as input a,b,sigma,X0,dt, T and can process any EDS
+function stochasticRungeKuttaMethod(a, b, X0,sigma, dt, T) {
+    const numSteps = 100;
+    let X = [X0];
+
+    for (let i = 0; i < numSteps; i++) {
+        const dW = Math.sqrt(dt) * normalDistribution(); 
+        const k1 = a * (b - X[i]) * dt + sigma * dW;
+        const k2 = a * (b - (X[i] + 0.5 * k1)) * dt + sigma * Math.sqrt(dt) * normalDistribution();
+        
+        const increment = k2;
+        X.push(X[i] + increment);
+    }
+
+    return X;
 }
 
 function normalDistribution() {
