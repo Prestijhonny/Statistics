@@ -9,61 +9,74 @@ let canvasArr = [];
 function destroyCanvas() {
     for (let c of canvasArr) c.destroy();
 }
-
 document.getElementById("SDE").addEventListener("change", function () {
-    destroyCanvas();
-    var selectedAlg = this.value;
+  destroyCanvas();
+  let selectedAlg = this.value;
+  let inputForms = document.getElementsByClassName("input-form");
+  for (let i = 0; i < inputForms.length; i++) {
+    inputForms[i].style.display = "none";
+  }
 
-    switch (selectedAlg) {
-        case "empty":
-            console.log("No algorithm selected");
-            break;
+  switch (selectedAlg) {
+    case "empty":
+      console.log("No algorithm selected");
+      canvas1.style.display = "none";
+      break;
 
-        case "AB":
-            console.log("Arithmetic Brownian selected");
-            generateArithmeticBrownianMotion();
-            break;
+    case "AB":
+      console.log("Arithmetic Brownian selected");
+      document.getElementById("ABInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "GB":
-            console.log("Geometric Brownian selected");
-            generateGeometricBrownianMotion();
-            break;
+    case "GB":
+      console.log("Geometric Brownian selected");
+      document.getElementById("GBInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "OU":
-            console.log("Ornstein-Uhlenbeck selected");
-            generateOU();
-            break;
+    case "OU":
+      console.log("Ornstein-Uhlenbeck selected");
+      document.getElementById("OUInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "V":
-            console.log("Vasicek selected");
-            generateVasicek();
-            break;
+    case "V":
+      console.log("Vasicek selected");
+      document.getElementById("VInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "HW":
-            console.log("Hull-White selected");
-            generateHullWhite();
-            break;
+    case "HW":
+      console.log("Hull-White selected");
+      document.getElementById("HWInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "CIR":
-            console.log("Cox-Ingersoll-Ross selected");
-            generateCoxIngersollRoss();
-            break;
+    case "CIR":
+      console.log("Cox-Ingersoll-Ross selected");
+      document.getElementById("CIRInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "BK":
-            console.log("Black-Karasinski selected");
-            generateBlackKarasinski();
-            break;
+    case "BK":
+      console.log("Black-Karasinski selected");
+      document.getElementById("BKInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "H":
-            console.log("Heston selected");
-            generateHeston();
-            break;
+    case "H":
+      console.log("Heston selected");
+      document.getElementById("HInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
 
-        case "CM":
-            console.log("Chen model selected");
-            generateChen();
-            break;
-    }
+    case "CM":
+      console.log("Chen model selected");
+      document.getElementById("CMInputs").style.display = "block";
+      canvas1.style.display = "none";
+      break;
+  }
 });
 
 // Move canvas 1
@@ -90,6 +103,8 @@ function getRandomRGBAColor() {
 //   --------------------
 // Function to generate Arithmetic Brownian Motion data
 function generateArithmeticBrownianMotion() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     let numSteps = 100;
 
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
@@ -114,6 +129,8 @@ function generateArithmeticBrownianMotion() {
 //   --------------------
 // Function to generate Geometric Brownian Motion data
 function generateGeometricBrownianMotion() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     const numSteps = 100;
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
@@ -139,6 +156,8 @@ function generateGeometricBrownianMotion() {
 //   --------------------
 // Function to generate Ornstein-Uhlenbeck
 function generateOU() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     let numSteps = 100;
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Ornstein-Uhlenbeck");
@@ -160,6 +179,8 @@ function generateOU() {
 //   --------------------
 // Function to generate Vasicek
 function generateVasicek() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     let numSteps = 100;
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Vasicek");
@@ -180,6 +201,8 @@ function generateVasicek() {
 //   --------------------
 // Function to generate Hull-White
 function generateHullWhite() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     let numSteps = 100;
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
@@ -201,6 +224,7 @@ function generateHullWhite() {
 //   --------------------
 // Function to generate Cox-Ingersoll-Ross
 function generateCoxIngersollRoss() {
+    canvas1.style.display = "block";
     let numSteps = 100;
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Cox-Ingersoll-Ross");
@@ -221,6 +245,8 @@ function generateCoxIngersollRoss() {
 //   --------------------
 // Function to generate Black-Karasinski
 function generateBlackKarasinski() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     let numSteps = 100;
     initializeGraph("Black-Karasinski");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
@@ -240,6 +266,8 @@ function generateBlackKarasinski() {
 //   --------------------
 // Function to generate Heston
 function generateHeston() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     let numSteps = 100;
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Heston");
@@ -262,6 +290,8 @@ function generateHeston() {
 //   --------------------
 // Function to generate Chen
 function generateChen() {
+    destroyCanvas();
+    canvas1.style.display = "block";
     let numSteps = 100;
 
     initializeGraph("Chen");
