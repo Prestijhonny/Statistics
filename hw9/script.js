@@ -207,7 +207,7 @@ function generateCoxIngersollRoss() {
 
     for (let j = 0; j < numberOfLine; j++) {
 
-        const k = Math.random()*(0.5-0.1)+0.1, theta = Math.random()*(0.5-0.05)+0.05, sigma = Math.random()*(0.5-0.02)+0.02,R0 = 0.03, dt = 0.01;
+        const k = Math.random() * (0.5 - 0.1) + 0.1, theta = Math.random() * (0.5 - 0.05) + 0.05, sigma = Math.random() * (0.5 - 0.02) + 0.02, R0 = 0.03, dt = 0.01;
         let yValues = [R0];
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
@@ -216,41 +216,47 @@ function generateCoxIngersollRoss() {
         }
         addLine(xValues, yValues);
     }
-    
+
 }
 //   --------------------
 // Function to generate Black-Karasinski
 function generateBlackKarasinski() {
     let numSteps = 100;
-    const theta1 = 0.02, theta2 = 0.01, a = 0.5, sigma = 0.02, R0 = 0.015, dt = 0.01;
-    let yValues = [R0];
-
-    for (let i = 0; i < numSteps; i++) {
-        const dW = Math.sqrt(dt) * normalDistribution();
-        const res = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
-        yValues.push(yValues[i] + res);
-    }
+    initializeGraph("Black-Karasinski");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    drawGraph(xValues, yValues, "Black-Karasinski");
+
+    for (let j = 0; j < numberOfLine; j++) {
+        const theta1 = Math.random() * (0.1 - 0.02) + 0.02, theta2 = Math.random() * (0.1 - 0.01) + 0.01, a = Math.random() * (0.6 - 0.1) + 0.1, sigma = Math.random() * (0.1 - 0.02) + 0.02, R0 = 0.015, dt = 0.01;
+        let yValues = [R0];
+        for (let i = 0; i < numSteps; i++) {
+            const dW = Math.sqrt(dt) * normalDistribution();
+            const res = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+            yValues.push(yValues[i] + res);
+        }
+        addLine(xValues, yValues);
+    }
 }
 
 //   --------------------
 // Function to generate Heston
 function generateHeston() {
     let numSteps = 100;
-    const mu = 0.05, k = 0.8, theta = 0.1, sigma = 0.2, S0 = 100, v0 = 0.2, dt = 0.01;
-    let yValues = [S0];
-    let v_t = [v0];
-    for (let i = 0; i < numSteps; i++) {
-        const dW1 = Math.sqrt(dt) * normalDistribution();
-        v_t.push((k * (theta - v_t[i]) * dt + sigma * Math.sqrt(v_t[i]) * dW1) + v_t[i]);
-
-        const dW2 = Math.sqrt(dt) * normalDistribution();
-        const S_t = mu * yValues[i] * dt + Math.sqrt(v_t[i]) * yValues[i] * dW2;
-        yValues.push(yValues[i] + S_t);
-    }
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    drawGraph(xValues, yValues, "Heston");
+    initializeGraph("Heston");
+
+    for (let j = 0; j < numberOfLine; j++) {
+        const mu = Math.random()* (0.1-0.05)+0.05, k = Math.random()* (1-0.3)+0.3, theta = Math.random()* (0.5-0.1)+0.1, sigma = Math.random()* (0.5-0.1)+0.1, S0 = 100, v0 = 0.2, dt = 0.01;
+        let yValues = [S0];
+        let v_t = [v0];
+        for (let i = 0; i < numSteps; i++) {
+            const dW1 = Math.sqrt(dt) * normalDistribution();
+            v_t.push((k * (theta - v_t[i]) * dt + sigma * Math.sqrt(v_t[i]) * dW1) + v_t[i]);
+            const dW2 = Math.sqrt(dt) * normalDistribution();
+            const S_t = mu * yValues[i] * dt + Math.sqrt(v_t[i]) * yValues[i] * dW2;
+            yValues.push(yValues[i] + S_t);
+        }
+        addLine(xValues, yValues);
+    }
 }
 
 //   --------------------
