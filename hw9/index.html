@@ -81,7 +81,7 @@
           <input type="number" id="OUtheta" value="1" />
 
           <label for="sigma">Sigma:</label>
-          <input type="number" id="OUsigma" value="2" />
+          <input type="number" id="OUsigma" value="1.41421356237" />
 
           <label for="X0">X0 (Initial Value):</label>
           <input type="number" id="OUX0" value="-10" />
@@ -122,7 +122,7 @@
           <input type="number" id="hwTheta1" value="0.02" />
 
           <label for="HWTheta2">Theta2:</label>
-          <input type="number" id="HWTheta2" value="0.01" />
+          <input type="number" id="hwTheta2" value="0.01" />
 
           <label for="hwA">a:</label>
           <input type="number" id="hwA" value="0.1" />
@@ -214,32 +214,47 @@
           <button onclick="generateHeston()">Generate</button>
         </div>
 
-        <div id="CMInputs" class="input-form" style="display: none">
-          <label for="hNumSteps">Number of Steps:</label>
-          <input type="number" id="hNumSteps" value="100" />
+        <div id="CInputs" class="input-form" style="display: none">
+          <label for="cNumSteps">Number of Steps:</label>
+          <input type="number" id="cNumSteps" value="100" />
 
-          <label for="HMu">Mu:</label>
-          <input type="number" id="HMu" value="0.05" />
+          <label for="CMu">Mu:</label>
+          <input type="number" id="CMu" value="0.1" />
+          
+          <label for="CK">k:</label>
+          <input type="number" id="CK" value="0.3" />
 
-          <label for="HK">k:</label>
-          <input type="number" id="HK" value="1" />
+          <label for="CA">a:</label>
+          <input type="number" id="CA" value="0.2" />
 
-          <label for="HTheta">Theta:</label>
-          <input type="number" id="HTheta" value="0.1" />
+          <label for="CB">b:</label>
+          <input type="number" id="CB" value="0.3" />
 
-          <label for="HSigma">Sigma:</label>
-          <input type="number" id="HSigma" value="0.2" />
+          <label for="CM">m:</label>
+          <input type="number" id="CM" value="0.2" />
 
-          <label for="HS0">S0 (Initial Stock Price):</label>
-          <input type="number" id="HS0" value="100" />
+          <label for="CMu">mu:</label>
+          <input type="number" id="CMu" value="0.1" />
 
-          <label for="HV0">v0 (Initial Volatility):</label>
-          <input type="number" id="HV0" value="0.2" />
+          <label for="CV">v:</label>
+          <input type="number" id="CV" value="0.5" />
+          
+          <label for="CG">g:</label>
+          <input type="number" id="CG" value="0.2" />
 
-          <label for="HDt">Time Increment (dt):</label>
-          <input type="number" id="HDt" value="0.01" />
+          <label for="CR0">R0 (Initial stock price):</label>
+          <input type="number" id="CR0" value="0.05" />
 
-          <button onclick="generateHeston()">Generate</button>
+          <label for="CTheta0">Theta0:</label>
+          <input type="number" id="CTheta0" value="0.1" />
+    
+          <label for="CSigma0">Sigma0:</label>
+          <input type="number" id="CSigma0" value="0.05" />
+
+
+          <label for="CDt">dt:</label>
+          <input type="number" id="CDt" value="0.01" />
+          <button onclick="generateChen()">Generate</button>
         </div>
 
       </div>

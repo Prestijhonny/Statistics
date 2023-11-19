@@ -10,73 +10,73 @@ function destroyCanvas() {
     for (let c of canvasArr) c.destroy();
 }
 document.getElementById("SDE").addEventListener("change", function () {
-  destroyCanvas();
-  let selectedAlg = this.value;
-  let inputForms = document.getElementsByClassName("input-form");
-  for (let i = 0; i < inputForms.length; i++) {
-    inputForms[i].style.display = "none";
-  }
+    destroyCanvas();
+    let selectedAlg = this.value;
+    let inputForms = document.getElementsByClassName("input-form");
+    for (let i = 0; i < inputForms.length; i++) {
+        inputForms[i].style.display = "none";
+    }
 
-  switch (selectedAlg) {
-    case "empty":
-      console.log("No algorithm selected");
-      canvas1.style.display = "none";
-      break;
+    switch (selectedAlg) {
+        case "empty":
+            console.log("No algorithm selected");
+            canvas1.style.display = "none";
+            break;
 
-    case "AB":
-      console.log("Arithmetic Brownian selected");
-      document.getElementById("ABInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "AB":
+            console.log("Arithmetic Brownian selected");
+            document.getElementById("ABInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "GB":
-      console.log("Geometric Brownian selected");
-      document.getElementById("GBInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "GB":
+            console.log("Geometric Brownian selected");
+            document.getElementById("GBInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "OU":
-      console.log("Ornstein-Uhlenbeck selected");
-      document.getElementById("OUInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "OU":
+            console.log("Ornstein-Uhlenbeck selected");
+            document.getElementById("OUInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "V":
-      console.log("Vasicek selected");
-      document.getElementById("VInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "V":
+            console.log("Vasicek selected");
+            document.getElementById("VInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "HW":
-      console.log("Hull-White selected");
-      document.getElementById("HWInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "HW":
+            console.log("Hull-White selected");
+            document.getElementById("HWInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "CIR":
-      console.log("Cox-Ingersoll-Ross selected");
-      document.getElementById("CIRInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "CIR":
+            console.log("Cox-Ingersoll-Ross selected");
+            document.getElementById("CIRInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "BK":
-      console.log("Black-Karasinski selected");
-      document.getElementById("BKInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "BK":
+            console.log("Black-Karasinski selected");
+            document.getElementById("BKInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "H":
-      console.log("Heston selected");
-      document.getElementById("HInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
+        case "H":
+            console.log("Heston selected");
+            document.getElementById("HInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
 
-    case "CM":
-      console.log("Chen model selected");
-      document.getElementById("CMInputs").style.display = "block";
-      canvas1.style.display = "none";
-      break;
-  }
+        case "CM":
+            console.log("Chen model selected");
+            document.getElementById("CInputs").style.display = "block";
+            canvas1.style.display = "none";
+            break;
+    }
 });
 
 // Move canvas 1
@@ -105,16 +105,18 @@ function getRandomRGBAColor() {
 function generateArithmeticBrownianMotion() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = 100;
-
+    const numSteps = parseInt(document.getElementById("ABnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    let labelGraph = "Arithmetic Brownian Motion";
+    const labelGraph = "Arithmetic Brownian Motion";
     initializeGraph(labelGraph);
 
-    for (let j = 0; j < numberOfLine; j++) {
+    const mu = parseFloat(document.getElementById("ABmu").value);
+    const sigma = parseFloat(document.getElementById("ABsigma").value);
+    const X0 = parseInt(document.getElementById("ABX0").value);
+    const dt = parseFloat(document.getElementById("ABdt").value);
+    let yValues = [X0];
 
-        let mu = Math.random() * (0.3 - 0.1) + 0.1, sigma = Math.random() * (0.4 - 0.1) + 0.1, X0 = 0, dt = 0.01;
-        const yValues = [X0];
+    for (let j = 0; j < numberOfLine; j++) {
 
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
@@ -122,6 +124,7 @@ function generateArithmeticBrownianMotion() {
             yValues.push(yValues[i] + newValue);
         }
         addLine(xValues, yValues);
+        yValues = [X0];
     }
 
 }
@@ -131,23 +134,25 @@ function generateArithmeticBrownianMotion() {
 function generateGeometricBrownianMotion() {
     destroyCanvas();
     canvas1.style.display = "block";
-    const numSteps = 100;
+    const numSteps = parseInt(document.getElementById("ABnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
     let labelGraph = "Geometric Brownian Motion";
     initializeGraph(labelGraph);
+    const mu = parseFloat(document.getElementById("GBmu").value);
+    const sigma = parseFloat(document.getElementById("GBsigma").value);
+    const dt = parseFloat(document.getElementById("GBdt").value);
+    const S0 = parseInt(document.getElementById("GBS0").value);
+    let yValues = [S0];
+
     for (let j = 0; j < numberOfLine; j++) {
-        const mu = Math.random() * (1 - 0.1) + 0.1;
-        const sigma = Math.random() * (0.3 - 0.1) + 0.1;
-        const dt = 0.01;
-        const S0 = 1;
-        const yValues = [S0];
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
             const newValue = mu * yValues[i] * dt + sigma * yValues[i] * dW;
             yValues.push(yValues[i] + newValue);
         }
         addLine(xValues, yValues);
+        yValues[S0];
     }
 
 
@@ -158,21 +163,25 @@ function generateGeometricBrownianMotion() {
 function generateOU() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = 100;
+    let numSteps = parseInt(document.getElementById("OUnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Ornstein-Uhlenbeck");
+    const theta = parseInt(document.getElementById("OUtheta").value);
+    const sigma = parseFloat(document.getElementById("OUsigma").value); //Math.sqrt(2)
+    const X0 = parseInt(document.getElementById("OUX0").value);
+    const mu = parseInt(document.getElementById("OUmu").value);;
+    const dt = parseFloat(document.getElementById("OUdt").value);
+    let yValues = [X0];
 
     for (let j = 0; j < numberOfLine; j++) {
-        let theta = 1, mu = Math.random() * (10 - 1) + 1, sigma = Math.sqrt(2), X0 = -10, dt = 0.05;
-        let yValues = [X0];
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
             const k = theta * (mu - yValues[i]) * dt + sigma * dW;
             yValues.push(yValues[i] + k);
         }
         addLine(xValues, yValues);
+        yValues = [X0];
     }
-
 
 }
 
@@ -181,19 +190,26 @@ function generateOU() {
 function generateVasicek() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = 100;
+    let numSteps = parseInt(document.getElementById("VnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Vasicek");
 
+    const k = parseFloat(document.getElementById("Vk").value);
+    const theta = parseFloat(document.getElementById("Vtheta").value);
+    const sigma = parseFloat(document.getElementById("Vsigma").value);
+    const R0 = parseInt(document.getElementById("VR0").value)
+    const dt = parseFloat(document.getElementById("Vdt").value);
+    let yValues = [R0];
+
     for (let j = 0; j < numberOfLine; j++) {
-        let k = Math.random() * (0.5 - 0.2) + 0.2, theta = Math.random() * (0.6 - 0.2) + 0.2, sigma = Math.random() * (0.4 - 0.1) + 0.1, R0 = 0, dt = 0.01;
-        let yValues = [R0];
+
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
             const rt = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(dt) * dW;
             yValues.push(yValues[i] + rt);
         }
         addLine(xValues, yValues);
+        yValues = [R0];
     }
 
 }
@@ -203,20 +219,26 @@ function generateVasicek() {
 function generateHullWhite() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = 100;
+    const numSteps = parseInt(document.getElementById("hwNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
+
+    const theta1 = parseFloat(document.getElementById("hwTheta1").value);
+    const theta2 = parseFloat(document.getElementById("hwTheta2").value);
+    const a = parseFloat(document.getElementById("hwA").value);
+    const sigma = parseFloat(document.getElementById("hwSigma").value);;
+    const R0 = parseFloat(document.getElementById("hwR0").value);
+    const dt = parseFloat(document.getElementById("hwDt").value);
+    let yValues = [R0];
 
     initializeGraph("Hull-White");
     for (let j = 0; j < numberOfLine; j++) {
-        const theta1 = Math.random() * (0.1 - 0.02) * 0.02, theta2 = Math.random() * (0.1 - 0.01) * 0.01;
-        const a = Math.random() * (0.3 - 0.1) * 0.1, sigma = Math.random() * (0.1 - 0.02) * 0.02, R0 = 0.015, dt = 0.01;
-        let yValues = [R0];
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
             const k = ((theta1 + (theta2 * i)) - (a * yValues[i])) * dt + sigma * dW;
             yValues.push(yValues[i] + k);
         }
         addLine(xValues, yValues);
+        yValues = [R0];
     }
 
 }
@@ -225,41 +247,54 @@ function generateHullWhite() {
 // Function to generate Cox-Ingersoll-Ross
 function generateCoxIngersollRoss() {
     canvas1.style.display = "block";
-    let numSteps = 100;
+    const numSteps = parseInt(document.getElementById("CIRNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Cox-Ingersoll-Ross");
 
-    for (let j = 0; j < numberOfLine; j++) {
+    const k = parseFloat(document.getElementById("CIRK").value);
+    const theta = parseFloat(document.getElementById("CIRTheta").value);
+    const sigma = parseFloat(document.getElementById("CIRSigma").value);
+    const R0 = parseFloat(document.getElementById("CIRR0").value);
+    const dt = parseFloat(document.getElementById("CIRdt").value);
+    let yValues = [R0];
 
-        const k = Math.random() * (0.5 - 0.1) + 0.1, theta = Math.random() * (0.5 - 0.05) + 0.05, sigma = Math.random() * (0.5 - 0.02) + 0.02, R0 = 0.03, dt = 0.01;
-        let yValues = [R0];
+    for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
             const res = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
             yValues.push(yValues[i] + res);
         }
         addLine(xValues, yValues);
+        yValues = [R0];
     }
 
 }
+
 //   --------------------
 // Function to generate Black-Karasinski
 function generateBlackKarasinski() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = 100;
+    const numSteps = parseInt(document.getElementById("bkNumSteps").value);
     initializeGraph("Black-Karasinski");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    const theta1 = parseFloat(document.getElementById("BKTheta1").value);
+    const theta2 = parseFloat(document.getElementById("BKTheta2").value);
+    const a = parseFloat(document.getElementById("BKA").value);
+    const sigma = parseFloat(document.getElementById("BKSigma").value);
+    const R0 = parseFloat(document.getElementById("BKR0").value);
+    const dt = parseFloat(document.getElementById("BKDt").value);
+    let yValues = [R0];
 
     for (let j = 0; j < numberOfLine; j++) {
-        const theta1 = Math.random() * (0.1 - 0.02) + 0.02, theta2 = Math.random() * (0.1 - 0.01) + 0.01, a = Math.random() * (0.6 - 0.1) + 0.1, sigma = Math.random() * (0.1 - 0.02) + 0.02, R0 = 0.015, dt = 0.01;
-        let yValues = [R0];
+
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
             const res = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
             yValues.push(yValues[i] + res);
         }
         addLine(xValues, yValues);
+        yValues = [R0];
     }
 }
 
@@ -268,14 +303,20 @@ function generateBlackKarasinski() {
 function generateHeston() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = 100;
+    let numSteps = parseInt(document.getElementById("hNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Heston");
+    const mu = parseFloat(document.getElementById("HMu").value);
+    const k = parseFloat(document.getElementById("HK").value);
+    const theta = parseFloat(document.getElementById("HTheta").value);
+    const sigma = parseFloat(document.getElementById("HSigma").value);
+    const S0 = parseInt(document.getElementById("HS0").value);
+    const v0 = parseFloat(document.getElementById("HV0").value);
+    const dt = parseFloat(document.getElementById("HDt").value);
+    let yValues = [S0];
+    let v_t = [v0];
 
     for (let j = 0; j < numberOfLine; j++) {
-        const mu = Math.random()* (0.1-0.05)+0.05, k = Math.random()* (1-0.3)+0.3, theta = Math.random()* (0.5-0.1)+0.1, sigma = Math.random()* (0.5-0.1)+0.1, S0 = 100, v0 = 0.2, dt = 0.01;
-        let yValues = [S0];
-        let v_t = [v0];
         for (let i = 0; i < numSteps; i++) {
             const dW1 = Math.sqrt(dt) * normalDistribution();
             v_t.push((k * (theta - v_t[i]) * dt + sigma * Math.sqrt(v_t[i]) * dW1) + v_t[i]);
@@ -284,6 +325,8 @@ function generateHeston() {
             yValues.push(yValues[i] + S_t);
         }
         addLine(xValues, yValues);
+        yValues = [S0];
+        v_t = [v0];
     }
 }
 
@@ -292,19 +335,26 @@ function generateHeston() {
 function generateChen() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = 100;
+    let numSteps = parseInt(document.getElementById("cNumSteps"));
 
     initializeGraph("Chen");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-
+    const R0 = parseFloat(document.getElementById("CR0").value);
+    const theta0 = parseFloat(document.getElementById("CTheta0").value);
+    const sigma0 = parseFloat(document.getElementById("CSigma0").value);
+    const a = parseFloat(document.getElementById("CA").value); 
+    const b = parseFloat(document.getElementById("CB").value); 
+    const m = parseFloat(document.getElementById("CM").value);
+    const mu = parseFloat(document.getElementById("CMu").value);
+    const v = parseFloat(document.getElementById("CV").value);
+    const g = parseFloat(document.getElementById("CG").value);
+    const dt = parseFloat(document.getElementById("CDt").value)
+    const k = parseFloat(document.getElementById("CK").value);
+    let yValues = [R0]; 
+    let theta_t = [theta0];
+    let sigma_t = [sigma0];
+    
     for (let j = 0; j < numberOfLine; j++) {
-
-        let R0 = 0.05, theta0 = 0.1, sigma0 = 0.05;
-        let yValues = [R0]; // r_t
-        let theta_t = [theta0];
-        let sigma_t = [sigma0];
-        let a = Math.random() * (0.3 - 0.1) + 0.1, m = Math.random() * (0.3 - 0.1) + 0.1, b = Math.random() * (0.6 - 0.1) + 0.1, mu = Math.random() * (0.3 - 0.1) + 0.1, v = Math.random() * (0.6 - 0.1) + 0.1, g = Math.random() * (0.2 - 0.1) + 0.1, dt = 0.01, k = Math.random() * (0.6 - 0.1) + 0.1;
-
         for (let i = 0; i < numSteps; i++) {
             const dW1 = Math.sqrt(dt) * normalDistribution();
             sigma_t.push((mu * (b - sigma_t[i]) * dt + (m * Math.sqrt(sigma_t[i])) * dW1) + sigma_t[i]);
@@ -314,8 +364,10 @@ function generateChen() {
             const r_t = ((k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
             yValues.push(yValues[i] + r_t);
         }
-
         addLine(xValues, yValues);
+        yValues = [R0]; 
+        theta_t = [theta0];
+        sigma_t = [sigma0];
     }
 
 
@@ -338,15 +390,15 @@ function stochasticEulerMethod(a, b, X0, sigma, dt, labelGraph) {
 
 //   --------------------
 // Function to generate general stocastics process, it takes as input a,b,sigma,X0,dt, T and can process any EDS
-function stochasticRungeKuttaMethod(a, b, X0,sigma, dt, T) {
+function stochasticRungeKuttaMethod(a, b, X0, sigma, dt, T) {
     const numSteps = 100;
     let X = [X0];
 
     for (let i = 0; i < numSteps; i++) {
-        const dW = Math.sqrt(dt) * normalDistribution(); 
+        const dW = Math.sqrt(dt) * normalDistribution();
         const k1 = a * (b - X[i]) * dt + sigma * dW;
         const k2 = a * (b - (X[i] + 0.5 * k1)) * dt + sigma * Math.sqrt(dt) * normalDistribution();
-        
+
         const increment = k2;
         X.push(X[i] + increment);
     }
