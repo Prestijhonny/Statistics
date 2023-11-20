@@ -134,11 +134,12 @@ function generateArithmeticBrownianMotion() {
 function generateGeometricBrownianMotion() {
     destroyCanvas();
     canvas1.style.display = "block";
-    const numSteps = parseInt(document.getElementById("ABnumSteps").value);
+    const numSteps = parseInt(document.getElementById("GBnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
     let labelGraph = "Geometric Brownian Motion";
     initializeGraph(labelGraph);
+  
     const mu = parseFloat(document.getElementById("GBmu").value);
     const sigma = parseFloat(document.getElementById("GBsigma").value);
     const dt = parseFloat(document.getElementById("GBdt").value);
@@ -152,7 +153,7 @@ function generateGeometricBrownianMotion() {
             yValues.push(yValues[i] + newValue);
         }
         addLine(xValues, yValues);
-        yValues[S0];
+        yValues = [S0];
     }
 
 
@@ -335,7 +336,7 @@ function generateHeston() {
 function generateChen() {
     destroyCanvas();
     canvas1.style.display = "block";
-    let numSteps = parseInt(document.getElementById("cNumSteps"));
+    let numSteps = parseInt(document.getElementById("cNumSteps").value);
 
     initializeGraph("Chen");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
