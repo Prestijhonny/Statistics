@@ -4,12 +4,15 @@ const chartID2 = "myCanvas2";
 const canvas1 = document.getElementById("canvas1");
 const canvas2 = document.getElementById("canvas2");
 const myCanvas = document.getElementById("myCanvas");
+const myCanvas2 = document.getElementById("myCanvas2");
 const ctx = myCanvas.getContext("2d");
+const ctx2 = myCanvas2.getContext("2d");
 const numberOfLine = 10;
 let canvasArr = [];
 
 function destroyCanvas() {
     for (let c of canvasArr) c.destroy();
+    canvasArr.shift();
 }
 document.getElementById("SDE").addEventListener("change", function () {
     destroyCanvas();
@@ -114,57 +117,81 @@ function getRandomRGBAColor() {
 
 //   --------------------
 // Function to generate Arithmetic Brownian Motion data
-function generateArithmeticBrownianMotion() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateArithmeticBrownianMotion(methodFlag) {
     const numSteps = parseInt(document.getElementById("ABnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     const labelGraph = "Arithmetic Brownian Motion";
-    initializeGraph(labelGraph);
-
+    if (methodFlag == 0) {
+        initializeGraph(labelGraph);
+        canvas1.style.display = "block";
+    } else if (methodFlag == 1) {
+        initializeGraph2(labelGraph);
+        canvas2.style.display = "block";
+    }
     const mu = parseFloat(document.getElementById("ABmu").value);
     const sigma = parseFloat(document.getElementById("ABsigma").value);
     const X0 = parseInt(document.getElementById("ABX0").value);
     const dt = parseFloat(document.getElementById("ABdt").value);
     let yValues = [X0];
+    let newValue = 0;
 
     for (let j = 0; j < numberOfLine; j++) {
 
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            const newValue = (mu * dt + sigma * dW);
+            if (methodFlag == 0) { // Euler method
+                newValue = (mu * dt + sigma * dW);
+            } else if (methodFlag == 1) { // Runge kutta method
+                const k = mu * dt + sigma * dW;
+                newValue = mu * dt * k + sigma * dW;
+            }
             yValues.push(yValues[i] + newValue);
+            newValue = 0;
         }
-        addLine(xValues, yValues);
+        addLine(xValues, yValues, methodFlag);
         yValues = [X0];
     }
 
 }
 
+function clickArithmeticBrownianMotion() {
+    destroyCanvas();
+    generateArithmeticBrownianMotion(0);
+    generateArithmeticBrownianMotion(1);
+}
+
 //   --------------------
 // Function to generate Geometric Brownian Motion data
-function generateGeometricBrownianMotion() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateGeometricBrownianMotion(methodFlag) {
     const numSteps = parseInt(document.getElementById("GBnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
     let labelGraph = "Geometric Brownian Motion";
-    initializeGraph(labelGraph);
-  
+    if (methodFlag == 0) {
+        initializeGraph(labelGraph);
+        canvas1.style.display = "block";
+    } else if (methodFlag == 1) {
+        initializeGraph2(labelGraph);
+        canvas2.style.display = "block";
+    }
+
     const mu = parseFloat(document.getElementById("GBmu").value);
     const sigma = parseFloat(document.getElementById("GBsigma").value);
     const dt = parseFloat(document.getElementById("GBdt").value);
     const S0 = parseInt(document.getElementById("GBS0").value);
     let yValues = [S0];
-
+    let newValue = 0;
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            const newValue = mu * yValues[i] * dt + sigma * yValues[i] * dW;
+            if (methodFlag == 0) { // Euler method
+                newValue = mu * yValues[i] * dt + sigma * yValues[i] * dW;
+            } else if (methodFlag == 1) { // Runge kutta method
+                const k = mu * yValues[i] * dt + sigma * yValues[i] * dW;;
+                newValue = mu * yValues[i] * dt * k + sigma * yValues[i] * dW;
+            }
             yValues.push(yValues[i] + newValue);
+            newValue = 0;
         }
         addLine(xValues, yValues);
         yValues = [S0];
@@ -173,56 +200,88 @@ function generateGeometricBrownianMotion() {
 
 }
 
+function clickGeometricBrownianMotion(){
+    destroyCanvas();
+    generateGeometricBrownianMotion(0);
+    generateGeometricBrownianMotion(1);       
+}
+
 //   --------------------
 // Function to generate Ornstein-Uhlenbeck
-function generateOU() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateOU(methodFlag) {
     let numSteps = parseInt(document.getElementById("OUnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    initializeGraph("Ornstein-Uhlenbeck");
+
+    if (methodFlag == 0) {
+        initializeGraph("Ornstein-Uhlenbeck");
+        canvas1.style.display = "block";
+    } else if (methodFlag == 1) {
+        initializeGraph2("Ornstein-Uhlenbeck");
+        canvas2.style.display = "block";
+    }
     const theta = parseInt(document.getElementById("OUtheta").value);
     const sigma = parseFloat(document.getElementById("OUsigma").value); //Math.sqrt(2)
     const X0 = parseInt(document.getElementById("OUX0").value);
     const mu = parseInt(document.getElementById("OUmu").value);;
     const dt = parseFloat(document.getElementById("OUdt").value);
     let yValues = [X0];
+    let newValue = 0;
 
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
             const k = theta * (mu - yValues[i]) * dt + sigma * dW;
-            yValues.push(yValues[i] + k);
+            if (methodFlag == 0) { // Euler method
+                newValue = theta * (mu - yValues[i]) * dt + sigma * dW;
+            } else if (methodFlag == 1) { // Runge kutta method
+                const k = theta * (mu - yValues[i]) * dt + sigma * dW;
+                newValue = theta * (mu - (yValues[i]*k)) * dt + sigma * dW;
+            }
+            yValues.push(yValues[i] + newValue);
+            newValue = 0;
         }
         addLine(xValues, yValues);
         yValues = [X0];
     }
-
 }
+
+function clickOU(methodFlag){
+    destroyCanvas();
+    generateOU(0);
+    generateOU(1);
+}
+
 
 //   --------------------
 // Function to generate Vasicek
-function generateVasicek() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateVasicek(methodFlag) {
     let numSteps = parseInt(document.getElementById("VnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    initializeGraph("Vasicek");
 
+    if (methodFlag == 0) {
+        initializeGraph("Vasicek");
+        canvas1.style.display = "block";
+    } else if (methodFlag == 1) {
+        initializeGraph2("Vasicek");
+        canvas2.style.display = "block";
+    }
     const k = parseFloat(document.getElementById("Vk").value);
     const theta = parseFloat(document.getElementById("Vtheta").value);
     const sigma = parseFloat(document.getElementById("Vsigma").value);
     const R0 = parseInt(document.getElementById("VR0").value)
     const dt = parseFloat(document.getElementById("Vdt").value);
     let yValues = [R0];
-
+    let rt = 0;
     for (let j = 0; j < numberOfLine; j++) {
 
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            const rt = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(dt) * dW;
+            if (methodFlag == 0){
+                rt = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(dt) * dW;
+            }else if (methodFlag == 1){
+                let val = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(dt) * dW;
+                rt = k * (theta - (yValues[i]*val)) * dt + sigma * Math.sqrt(dt) * dW;
+            }
             yValues.push(yValues[i] + rt);
         }
         addLine(xValues, yValues);
@@ -231,12 +290,16 @@ function generateVasicek() {
 
 }
 
+
+function clickVasicek(methodFlag){
+    destroyCanvas();
+    generateVasicek(0);
+    generateVasicek(1);
+}
+
 //   --------------------
 // Function to generate Hull-White
-function generateHullWhite() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateHullWhite(methodFlag) {
     const numSteps = parseInt(document.getElementById("hwNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
@@ -247,13 +310,25 @@ function generateHullWhite() {
     const R0 = parseFloat(document.getElementById("hwR0").value);
     const dt = parseFloat(document.getElementById("hwDt").value);
     let yValues = [R0];
-
-    initializeGraph("Hull-White");
+    let newValue = 0;
+    if (methodFlag == 0) {
+        initializeGraph("Hull-White");
+        canvas1.style.display = "block";
+    } else if (methodFlag == 1) {
+        initializeGraph2("Hull-White");
+        canvas2.style.display = "block";
+    }
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            const k = ((theta1 + (theta2 * i)) - (a * yValues[i])) * dt + sigma * dW;
-            yValues.push(yValues[i] + k);
+            if (methodFlag == 0) {
+                newValue = ((theta1 + (theta2 * i)) - (a * yValues[i])) * dt + sigma * dW;
+            } else if (methodFlag == 1) {
+                const k = ((theta1 + (theta2 * i)) - (a * yValues[i])) * dt + sigma * dW;
+                newValue = ((theta1 + (theta2 * i*k)) - (a * yValues[i])) * dt + sigma * dW;
+            }   
+            yValues.push(yValues[i] + newValue);
+            newValue = 0;
         }
         addLine(xValues, yValues);
         yValues = [R0];
@@ -261,32 +336,55 @@ function generateHullWhite() {
 
 }
 
+function clickHullWhite(methodFlag){
+    destroyCanvas();
+    generateHullWhite(0);
+    generateHullWhite(1);
+}
+
 //   --------------------
 // Function to generate Cox-Ingersoll-Ross
-function generateCoxIngersollRoss() {
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateCoxIngersollRoss(methodFlag) {
     const numSteps = parseInt(document.getElementById("CIRNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    initializeGraph("Cox-Ingersoll-Ross");
-
+    
+    if (methodFlag == 0){
+        initializeGraph("Cox-Ingersoll-Ross");
+        canvas1.style.display = "block";
+    }else if (methodFlag == 1){
+        initializeGraph2("Cox-Ingersoll-Ross");
+        canvas2.style.display = "block";
+    }
     const k = parseFloat(document.getElementById("CIRK").value);
     const theta = parseFloat(document.getElementById("CIRTheta").value);
     const sigma = parseFloat(document.getElementById("CIRSigma").value);
     const R0 = parseFloat(document.getElementById("CIRR0").value);
     const dt = parseFloat(document.getElementById("CIRdt").value);
     let yValues = [R0];
-
+    let newValue = 0;
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            const res = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
-            yValues.push(yValues[i] + res);
+            
+            if (methodFlag == 0){
+                newValue =  k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+            }else if (methodFlag == 1){
+                let val =  k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+                newValue =  k * (theta - (yValues[i]*val)) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+            }
+            yValues.push(yValues[i] + newValue);
+            newValue = 0;
         }
         addLine(xValues, yValues);
         yValues = [R0];
     }
 
+}
+
+function clickCoxIngersollRoss(){
+    destroyCanvas();
+    generateCoxIngersollRoss(0);
+    generateCoxIngersollRoss(1);
 }
 
 //   --------------------
@@ -364,15 +462,15 @@ function generateChen() {
     const R0 = parseFloat(document.getElementById("CR0").value);
     const theta0 = parseFloat(document.getElementById("CTheta0").value);
     const sigma0 = parseFloat(document.getElementById("CSigma0").value);
-    const a = parseFloat(document.getElementById("CA").value); 
-    const b = parseFloat(document.getElementById("CB").value); 
+    const a = parseFloat(document.getElementById("CA").value);
+    const b = parseFloat(document.getElementById("CB").value);
     const m = parseFloat(document.getElementById("CM").value);
     const mu = parseFloat(document.getElementById("CMu").value);
     const v = parseFloat(document.getElementById("CV").value);
     const g = parseFloat(document.getElementById("CG").value);
     const dt = parseFloat(document.getElementById("CDt").value)
     const k = parseFloat(document.getElementById("CK").value);
-    let yValues = [R0]; 
+    let yValues = [R0];
     let theta_t = [theta0];
     let sigma_t = [sigma0];
 
@@ -387,7 +485,7 @@ function generateChen() {
             yValues.push(yValues[i] + r_t);
         }
         addLine(xValues, yValues);
-        yValues = [R0]; 
+        yValues = [R0];
         theta_t = [theta0];
         sigma_t = [sigma0];
     }
@@ -439,8 +537,7 @@ function normalDistribution() {
 
 function initializeGraph(labelGraph) {
     ctx.clearRect(0, 0, chartID.width, chartID.height);
-    ctx.clearRect(0, 0, chartID2.width, chartID2.height);
-    
+
     const myChart = new Chart(chartID, {
         type: "line",
         data: {
@@ -456,6 +553,10 @@ function initializeGraph(labelGraph) {
         },
         options: {
             responsive: true,
+            title: {
+                display: true,
+                text: 'Euler method',
+            },
             elements: {
                 line: {
                     tension: 0.1,
@@ -469,6 +570,12 @@ function initializeGraph(labelGraph) {
             },
         },
     });
+
+    canvasArr.push(myChart);
+}
+
+function initializeGraph2(labelGraph) {
+    ctx2.clearRect(0, 0, chartID2.width, chartID2.height);
 
     const myChart2 = new Chart(chartID2, {
         type: "line",
@@ -485,6 +592,11 @@ function initializeGraph(labelGraph) {
         },
         options: {
             responsive: true,
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Runge kutta method',
+            },
             elements: {
                 line: {
                     tension: 0.1,
@@ -498,12 +610,10 @@ function initializeGraph(labelGraph) {
             },
         },
     });
-    canvasArr.push(myChart);
     canvasArr.push(myChart2);
 }
 
 function addLine(xValues, yValues) {
-    let chart = canvasArr[canvasArr.length - 1];
 
     const color = getRandomRGBAColor();
     let newDataset = {
@@ -513,8 +623,8 @@ function addLine(xValues, yValues) {
         borderColor: color,
         data: yValues
     };
-    chart.data.datasets.push(newDataset);
-    chart.data.labels = xValues;
-    chart.update();
+    canvasArr[canvasArr.length-1].data.datasets.push(newDataset);
+    canvasArr[canvasArr.length-1].data.labels = xValues;
+    canvasArr[canvasArr.length-1].update();
 }
 
