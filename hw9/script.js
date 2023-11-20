@@ -1,6 +1,8 @@
 "use strict";
 const chartID = "myCanvas";
+const chartID2 = "myCanvas2";
 const canvas1 = document.getElementById("canvas1");
+const canvas2 = document.getElementById("canvas2");
 const myCanvas = document.getElementById("myCanvas");
 const ctx = myCanvas.getContext("2d");
 const numberOfLine = 10;
@@ -21,60 +23,70 @@ document.getElementById("SDE").addEventListener("change", function () {
         case "empty":
             console.log("No algorithm selected");
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "AB":
             console.log("Arithmetic Brownian selected");
             document.getElementById("ABInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "GB":
             console.log("Geometric Brownian selected");
             document.getElementById("GBInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "OU":
             console.log("Ornstein-Uhlenbeck selected");
             document.getElementById("OUInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "V":
             console.log("Vasicek selected");
             document.getElementById("VInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "HW":
             console.log("Hull-White selected");
             document.getElementById("HWInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "CIR":
             console.log("Cox-Ingersoll-Ross selected");
             document.getElementById("CIRInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "BK":
             console.log("Black-Karasinski selected");
             document.getElementById("BKInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "H":
             console.log("Heston selected");
             document.getElementById("HInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
 
         case "CM":
             console.log("Chen model selected");
             document.getElementById("CInputs").style.display = "block";
             canvas1.style.display = "none";
+            canvas2.style.display = "none";
             break;
     }
 });
@@ -105,6 +117,7 @@ function getRandomRGBAColor() {
 function generateArithmeticBrownianMotion() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     const numSteps = parseInt(document.getElementById("ABnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     const labelGraph = "Arithmetic Brownian Motion";
@@ -134,6 +147,7 @@ function generateArithmeticBrownianMotion() {
 function generateGeometricBrownianMotion() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     const numSteps = parseInt(document.getElementById("GBnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
@@ -164,6 +178,7 @@ function generateGeometricBrownianMotion() {
 function generateOU() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     let numSteps = parseInt(document.getElementById("OUnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Ornstein-Uhlenbeck");
@@ -191,6 +206,7 @@ function generateOU() {
 function generateVasicek() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     let numSteps = parseInt(document.getElementById("VnumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Vasicek");
@@ -220,6 +236,7 @@ function generateVasicek() {
 function generateHullWhite() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     const numSteps = parseInt(document.getElementById("hwNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
 
@@ -248,6 +265,7 @@ function generateHullWhite() {
 // Function to generate Cox-Ingersoll-Ross
 function generateCoxIngersollRoss() {
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     const numSteps = parseInt(document.getElementById("CIRNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Cox-Ingersoll-Ross");
@@ -276,6 +294,7 @@ function generateCoxIngersollRoss() {
 function generateBlackKarasinski() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     const numSteps = parseInt(document.getElementById("bkNumSteps").value);
     initializeGraph("Black-Karasinski");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
@@ -304,6 +323,7 @@ function generateBlackKarasinski() {
 function generateHeston() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     let numSteps = parseInt(document.getElementById("hNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
     initializeGraph("Heston");
@@ -336,6 +356,7 @@ function generateHeston() {
 function generateChen() {
     destroyCanvas();
     canvas1.style.display = "block";
+    canvas2.style.display = "block";
     let numSteps = parseInt(document.getElementById("cNumSteps").value);
 
     initializeGraph("Chen");
@@ -354,7 +375,7 @@ function generateChen() {
     let yValues = [R0]; 
     let theta_t = [theta0];
     let sigma_t = [sigma0];
-    
+
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW1 = Math.sqrt(dt) * normalDistribution();
@@ -396,9 +417,10 @@ function stochasticRungeKuttaMethod(a, b, X0, sigma, dt, T) {
     let X = [X0];
 
     for (let i = 0; i < numSteps; i++) {
-        const dW = Math.sqrt(dt) * normalDistribution();
-        const k1 = a * (b - X[i]) * dt + sigma * dW;
-        const k2 = a * (b - (X[i] + 0.5 * k1)) * dt + sigma * Math.sqrt(dt) * normalDistribution();
+        const dW1 = Math.sqrt(dt) * normalDistribution();
+        const k1 = a * (b - X[i]) * dt + sigma * dW1;
+        const dW2 = Math.sqrt(dt) * normalDistribution();
+        const k2 = a * (b - (X[i] + 0.5 * k1)) * dt + sigma * dW2;
 
         const increment = k2;
         X.push(X[i] + increment);
@@ -417,7 +439,8 @@ function normalDistribution() {
 
 function initializeGraph(labelGraph) {
     ctx.clearRect(0, 0, chartID.width, chartID.height);
-
+    ctx.clearRect(0, 0, chartID2.width, chartID2.height);
+    
     const myChart = new Chart(chartID, {
         type: "line",
         data: {
@@ -446,7 +469,37 @@ function initializeGraph(labelGraph) {
             },
         },
     });
+
+    const myChart2 = new Chart(chartID2, {
+        type: "line",
+        data: {
+            labels: [], // xValues
+            datasets: [
+                {
+                    label: labelGraph,
+                    data: [], // yValues
+                    borderColor: "#1E1E1E",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            elements: {
+                line: {
+                    tension: 0.1,
+                },
+            },
+            legend: {
+                display: false,
+            },
+            tooltips: {
+                enabled: false,
+            },
+        },
+    });
     canvasArr.push(myChart);
+    canvasArr.push(myChart2);
 }
 
 function addLine(xValues, yValues) {
