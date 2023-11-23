@@ -55,19 +55,23 @@ button:hover {
   border: 1px solid lightgray;
 }
 
+
+#container-canvas{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
 #canvas1,
 #canvas2{
-  width: 55%;
-  margin: 10px ;
-  height: auto;
-  position: absolute;
+  width: 50%;
+  margin: 10px auto ;
+  position: relative;
   display: none;
   background-color: lightgray;
 }
 
-#canvas2{
-  margin-top: 35%;
-}
 
 /* Form inputs */
 .input-form label,

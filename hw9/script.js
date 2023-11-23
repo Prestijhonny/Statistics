@@ -94,7 +94,6 @@ document.getElementById("SDE").addEventListener("change", function () {
     }
 });
 
-// Move canvas 1
 myCanvas.addEventListener("mousedown", () => {
     myCanvas.addEventListener("mousemove", update1);
     window.addEventListener("mouseup", () => {
@@ -103,8 +102,21 @@ myCanvas.addEventListener("mousedown", () => {
 });
 
 function update1(ev) {
-    canvas1.style.setProperty("left", `${ev.x - 200}px`);
-    canvas1.style.setProperty("top", `${ev.y - 25}px`);
+    canvas1.style.setProperty("left", `${ev.x - 1}px`);
+    canvas1.style.setProperty("top", `${ev.y - 1}px`);
+}
+
+
+myCanvas2.addEventListener("mousedown", () => {
+    myCanvas2.addEventListener("mousemove", update2);
+    window.addEventListener("mouseup", () => {
+        myCanvas2.removeEventListener("mousemove", update2);
+    });
+});
+
+function update2(ev) {
+    canvas2.style.setProperty("left", `${ev.x - 200}px`);
+    canvas2.style.setProperty("top", `${ev.y - 25}px`);
 }
 
 function getRandomRGBAColor() {
