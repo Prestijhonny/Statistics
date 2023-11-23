@@ -34,6 +34,9 @@
     <div style="display: flex" id="container-graph">
       <div style="width: 10%">
         <div id="ABInputs" class="input-form" style="display: none">
+          <label for="ABinstances">Number of instances:</label>
+          <input type="number" id="ABinstances" value="10" />
+
           <label for="numSteps">Number of Steps:</label>
           <input type="number" id="ABnumSteps" value="100" />
 
@@ -53,6 +56,9 @@
         </div>
 
         <div id="GBInputs" class="input-form" style="display: none">
+          <label for="GBinstances">Number of instances:</label>
+          <input type="number" id="GBinstances" value="10" />
+
           <label for="numSteps">Number of Steps:</label>
           <input type="number" id="GBnumSteps" value="100" />
 
@@ -72,6 +78,9 @@
         </div>
 
         <div id="OUInputs" class="input-form" style="display: none">
+          <label for="OUinstances">Number of instances:</label>
+          <input type="number" id="OUinstances" value="10" />
+
           <label for="numSteps">Number of Steps:</label>
           <input type="number" id="OUnumSteps" value="100" />
 
@@ -94,6 +103,9 @@
         </div>
 
         <div id="VInputs" class="input-form" style="display: none">
+          <label for="Vinstances">Number of instances:</label>
+          <input type="number" id="Vinstances" value="10" />
+
           <label for="numSteps">Number of Steps:</label>
           <input type="number" id="VnumSteps" value="100" />
 
@@ -116,6 +128,9 @@
         </div>
 
         <div id="HWInputs" class="input-form" style="display: none">
+          <label for="HWinstances">Number of instances:</label>
+          <input type="number" id="HWinstances" value="10" />
+
           <label for="hwNumSteps">Number of Steps:</label>
           <input type="number" id="hwNumSteps" value="100" />
 
@@ -141,6 +156,9 @@
         </div>
 
         <div id="CIRInputs" class="input-form" style="display: none">
+          <label for="CIRinstances">Number of instances:</label>
+          <input type="number" id="CIRinstances" value="10" />
+
           <label for="cirNumSteps">Number of Steps:</label>
           <input type="number" id="CIRNumSteps" value="100" />
 
@@ -163,6 +181,9 @@
         </div>
 
         <div id="BKInputs" class="input-form" style="display: none">
+          <label for="BKinstances">Number of instances:</label>
+          <input type="number" id="BKinstances" value="10" />
+
           <label for="bkNumSteps">Number of Steps:</label>
           <input type="number" id="bkNumSteps" value="100" />
 
@@ -188,6 +209,9 @@
         </div>
 
         <div id="HInputs" class="input-form" style="display: none">
+          <label for="Hinstances">Number of instances:</label>
+          <input type="number" id="Hinstances" value="10" />
+
           <label for="hNumSteps">Number of Steps:</label>
           <input type="number" id="hNumSteps" value="100" />
 
@@ -216,12 +240,15 @@
         </div>
 
         <div id="CInputs" class="input-form" style="display: none">
+          <label for="Cinstances">Number of instances:</label>
+          <input type="number" id="Cinstances" value="10" />
+
           <label for="cNumSteps">Number of Steps:</label>
           <input type="number" id="cNumSteps" value="100" />
 
           <label for="CMu">Mu:</label>
           <input type="number" id="CMu" value="0.1" />
-          
+
           <label for="CK">k:</label>
           <input type="number" id="CK" value="0.3" />
 
@@ -239,7 +266,7 @@
 
           <label for="CV">v:</label>
           <input type="number" id="CV" value="0.5" />
-          
+
           <label for="CG">g:</label>
           <input type="number" id="CG" value="0.2" />
 
@@ -248,10 +275,9 @@
 
           <label for="CTheta0">Theta0:</label>
           <input type="number" id="CTheta0" value="0.1" />
-    
+
           <label for="CSigma0">Sigma0:</label>
           <input type="number" id="CSigma0" value="0.05" />
-
 
           <label for="CDt">dt:</label>
           <input type="number" id="CDt" value="0.01" />
@@ -260,6 +286,9 @@
         </div>
 
         <div id="SDEInputs" class="input-form" style="display: none">
+          <label for="SDEinstances">Number of instances:</label>
+          <input type="number" id="SDEinstances" value="10" />
+
           <label for="SDENumSteps">Number of Steps:</label>
           <input type="number" id="SDENumSteps" value="100" />
 
@@ -277,19 +306,21 @@
 
           <label for="SDEDt">dt:</label>
           <input type="number" id="SDEDt" value="0.0" />
-          
+
           <button onclick="clickSDE()">Generate</button>
         </div>
-
       </div>
+
       <div style="width: 90%">
         <div class="resizable">
-          <div id="container-canvas">
+          <div style="display: flex; justify-content: center">
             <div id="canvas1" class="canvasWrapper">
               <canvas id="myCanvas"></canvas>
             </div>
-            <div id="canvas2" class="canvasWrapper">
-              <canvas id="myCanvas2"></canvas>
+            <div style="margin-top: 35%; width: 100%; align-items: center">
+              <div id="canvas2" class="canvasWrapper">
+                <canvas id="myCanvas2"></canvas>
+              </div>
             </div>
           </div>
         </div>

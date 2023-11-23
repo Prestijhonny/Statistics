@@ -4,14 +4,12 @@ body, html {
   box-sizing: border-box;
 }
 
-
 h1 {
   width: 100%;
   text-align: center;
   font-size: 25px;
   margin-bottom: 50px;
 }
-
 input {
   width: 90%;
   padding: 5px;
@@ -27,7 +25,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  color: #1E1E1E;
+  color: #190482;
   font-size: 20px;
 }
 
@@ -47,6 +45,7 @@ button:hover {
   background-color: #0056a7;
 }
 
+/* Canvas style */
 .canvasWrapper {
   width: 100%;
   resize: both;
@@ -54,30 +53,24 @@ button:hover {
   border: 1px solid lightgray;
 }
 
-
-#container-canvas{
-  width: 100%;
-  margin: 0 auto;
-}
-
 #canvas1,
-#canvas2{
-  width: 44%;
-  margin: 10px auto ;
+#canvas2 {
+  width: 55%;
+  margin: 10px;
+  height: auto;
   position: absolute;
   display: none;
-  background-color: lightgray;
+  background-color: white;
 }
-
 
 /* Form inputs */
 .input-form label,
 .input-form input,
 .input-form button {
   display: block;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
-#container-graph{
+#container-graph {
   margin: 20px;
 }
