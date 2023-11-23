@@ -91,6 +91,13 @@ document.getElementById("SDE").addEventListener("change", function () {
             canvas1.style.display = "none";
             canvas2.style.display = "none";
             break;
+
+        case "MANUAL-SDE":
+            console.log("Manuel SDE selected");
+            document.getElementById("SDEInputs").style.display = "block";
+            canvas1.style.display = "none";
+            canvas2.style.display = "none";
+            break;
     }
 });
 
@@ -212,10 +219,10 @@ function generateGeometricBrownianMotion(methodFlag) {
 
 }
 
-function clickGeometricBrownianMotion(){
+function clickGeometricBrownianMotion() {
     destroyCanvas();
     generateGeometricBrownianMotion(0);
-    generateGeometricBrownianMotion(1);       
+    generateGeometricBrownianMotion(1);
 }
 
 //   --------------------
@@ -247,7 +254,7 @@ function generateOU(methodFlag) {
                 newValue = theta * (mu - yValues[i]) * dt + sigma * dW;
             } else if (methodFlag == 1) { // Runge kutta method
                 const k = theta * (mu - yValues[i]) * dt + sigma * dW;
-                newValue = theta * (mu - (yValues[i]*k)) * dt + sigma * dW;
+                newValue = theta * (mu - (yValues[i] * k)) * dt + sigma * dW;
             }
             yValues.push(yValues[i] + newValue);
             newValue = 0;
@@ -257,7 +264,7 @@ function generateOU(methodFlag) {
     }
 }
 
-function clickOU(methodFlag){
+function clickOU(methodFlag) {
     destroyCanvas();
     generateOU(0);
     generateOU(1);
@@ -288,11 +295,11 @@ function generateVasicek(methodFlag) {
 
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            if (methodFlag == 0){
+            if (methodFlag == 0) {
                 rt = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(dt) * dW;
-            }else if (methodFlag == 1){
+            } else if (methodFlag == 1) {
                 let val = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(dt) * dW;
-                rt = k * (theta - (yValues[i]*val)) * dt + sigma * Math.sqrt(dt) * dW;
+                rt = k * (theta - (yValues[i] * val)) * dt + sigma * Math.sqrt(dt) * dW;
             }
             yValues.push(yValues[i] + rt);
         }
@@ -303,7 +310,7 @@ function generateVasicek(methodFlag) {
 }
 
 
-function clickVasicek(methodFlag){
+function clickVasicek(methodFlag) {
     destroyCanvas();
     generateVasicek(0);
     generateVasicek(1);
@@ -337,8 +344,8 @@ function generateHullWhite(methodFlag) {
                 newValue = ((theta1 + (theta2 * i)) - (a * yValues[i])) * dt + sigma * dW;
             } else if (methodFlag == 1) {
                 const k = ((theta1 + (theta2 * i)) - (a * yValues[i])) * dt + sigma * dW;
-                newValue = ((theta1 + (theta2 * i*k)) - (a * yValues[i])) * dt + sigma * dW;
-            }   
+                newValue = ((theta1 + (theta2 * i * k)) - (a * yValues[i])) * dt + sigma * dW;
+            }
             yValues.push(yValues[i] + newValue);
             newValue = 0;
         }
@@ -348,7 +355,7 @@ function generateHullWhite(methodFlag) {
 
 }
 
-function clickHullWhite(methodFlag){
+function clickHullWhite(methodFlag) {
     destroyCanvas();
     generateHullWhite(0);
     generateHullWhite(1);
@@ -359,11 +366,11 @@ function clickHullWhite(methodFlag){
 function generateCoxIngersollRoss(methodFlag) {
     const numSteps = parseInt(document.getElementById("CIRNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    
-    if (methodFlag == 0){
+
+    if (methodFlag == 0) {
         initializeGraph("Cox-Ingersoll-Ross");
         canvas1.style.display = "block";
-    }else if (methodFlag == 1){
+    } else if (methodFlag == 1) {
         initializeGraph2("Cox-Ingersoll-Ross");
         canvas2.style.display = "block";
     }
@@ -377,12 +384,12 @@ function generateCoxIngersollRoss(methodFlag) {
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-                
-            if (methodFlag == 0){
-                newValue =  k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
-            }else if (methodFlag == 1){
-                let val =  k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
-                newValue =  k * (theta - (yValues[i]*val)) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+
+            if (methodFlag == 0) {
+                newValue = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+            } else if (methodFlag == 1) {
+                let val = k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+                newValue = k * (theta - (yValues[i] * val)) * dt + sigma * Math.sqrt(yValues[i]) * dW;
             }
             yValues.push(yValues[i] + newValue);
             newValue = 0;
@@ -393,7 +400,7 @@ function generateCoxIngersollRoss(methodFlag) {
 
 }
 
-function clickCoxIngersollRoss(){
+function clickCoxIngersollRoss() {
     destroyCanvas();
     generateCoxIngersollRoss(0);
     generateCoxIngersollRoss(1);
@@ -404,10 +411,10 @@ function clickCoxIngersollRoss(){
 function generateBlackKarasinski(methodFlag) {
     const numSteps = parseInt(document.getElementById("bkNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    if (methodFlag == 0){
+    if (methodFlag == 0) {
         initializeGraph("Black-Karasinski");
         canvas1.style.display = "block";
-    }else if (methodFlag == 1){
+    } else if (methodFlag == 1) {
         initializeGraph2("Black-Karasinski");
         canvas2.style.display = "block";
     }
@@ -423,11 +430,11 @@ function generateBlackKarasinski(methodFlag) {
 
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            if(methodFlag == 0){
+            if (methodFlag == 0) {
                 newValue = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
-            }else if (methodFlag == 1){
+            } else if (methodFlag == 1) {
                 let val = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
-                newValue = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i])))* val * dt + sigma * Math.sqrt(yValues[i]) * dW;
+                newValue = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * val * dt + sigma * Math.sqrt(yValues[i]) * dW;
             }
             yValues.push(yValues[i] + newValue);
             newValue = 0;
@@ -437,7 +444,7 @@ function generateBlackKarasinski(methodFlag) {
     }
 }
 
-function clickBlackKarasinski(){
+function clickBlackKarasinski() {
     destroyCanvas();
     generateBlackKarasinski(0);
     generateBlackKarasinski(1);
@@ -448,10 +455,10 @@ function clickBlackKarasinski(){
 function generateHeston(methodFlag) {
     let numSteps = parseInt(document.getElementById("hNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    if (methodFlag == 0){
+    if (methodFlag == 0) {
         initializeGraph("Heston");
         canvas1.style.display = "block";
-    }else if (methodFlag == 1){
+    } else if (methodFlag == 1) {
         initializeGraph2("Heston");
         canvas2.style.display = "block";
     }
@@ -471,11 +478,11 @@ function generateHeston(methodFlag) {
             const dW1 = Math.sqrt(dt) * normalDistribution();
             v_t.push((k * (theta - v_t[i]) * dt + sigma * Math.sqrt(v_t[i]) * dW1) + v_t[i]);
             const dW2 = Math.sqrt(dt) * normalDistribution();
-            if(methodFlag == 0){
+            if (methodFlag == 0) {
                 S_t = mu * yValues[i] * dt + Math.sqrt(v_t[i]) * yValues[i] * dW2;
-            }else if(methodFlag == 1){
+            } else if (methodFlag == 1) {
                 let val = S_t = mu * yValues[i] * dt + Math.sqrt(v_t[i]) * yValues[i] * dW2;
-                S_t = (mu * yValues[i] * dt ) * val+ Math.sqrt(v_t[i]) * yValues[i] * dW2;
+                S_t = (mu * yValues[i] * dt) * val + Math.sqrt(v_t[i]) * yValues[i] * dW2;
             }
             yValues.push(yValues[i] + S_t);
         }
@@ -486,7 +493,7 @@ function generateHeston(methodFlag) {
     }
 }
 
-function clickHeston(){
+function clickHeston() {
     destroyCanvas();
     generateHeston(0);
     generateHeston(1);
@@ -497,10 +504,10 @@ function clickHeston(){
 function generateChen(methodFlag) {
     let numSteps = parseInt(document.getElementById("cNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    if (methodFlag == 0){
+    if (methodFlag == 0) {
         initializeGraph("Chen");
         canvas1.style.display = "block";
-    }else if (methodFlag == 1){
+    } else if (methodFlag == 1) {
         initializeGraph2("Chen");
         canvas2.style.display = "block";
     }
@@ -526,9 +533,9 @@ function generateChen(methodFlag) {
             const dW2 = Math.sqrt(dt) * normalDistribution();
             theta_t.push(theta_t[i] + (v * (g - theta_t[i]) * dt + a * Math.sqrt(theta_t[i]) * dW2));
             const dW3 = Math.sqrt(dt) * normalDistribution();
-            if(methodFlag == 0){
+            if (methodFlag == 0) {
                 r_t = ((k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
-            }else if(methodFlag == 1){
+            } else if (methodFlag == 1) {
                 let val = ((k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
                 r_t = ((val * k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
             }
@@ -544,7 +551,7 @@ function generateChen(methodFlag) {
 
 }
 
-function clickChen(){
+function clickChen() {
     destroyCanvas();
     generateChen(0);
     generateChen(1);
@@ -552,36 +559,63 @@ function clickChen(){
 
 //   --------------------
 // Function to generate general stocastics process, it takes as input a,b,sigma,X0,dt, T and can process any EDS
-function stochasticEulerMethod(a, b, X0, sigma, dt, labelGraph) {
-    let numSteps = 100;
-    let yValues = [X0];
-
-    for (let i = 0; i < numSteps; i++) {
-        const dW = Math.sqrt(dt) * normalDistribution();
-        const k = a * (b - yValues[i]) * dt + sigma * dW; // theta * (mu - X[i]) * dt + sigma * dW;
-        yValues.push(yValues[i] + k);
-    }
+function stochasticEulerMethod() {
+    const numSteps = parseInt(document.getElementById("SDENumSteps").value);
+    const a = parseFloat(document.getElementById("SDEB").value);
+    const b = parseFloat(document.getElementById("SDEB").value);
+    const X0= parseFloat(document.getElementById("SDEX0").value);
+    const sigma = parseFloat(document.getElementById("SDESigma").value);
+    const dt = parseFloat(document.getElementById("SDEDt").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    drawGraph(xValues, yValues, labelGraph);
+    let yValues = [X0];
+    initializeGraph("Euler general method");
+    canvas1.style.display = "block";
+    for (let j = 0; j < numberOfLine; j++) {
+        for (let i = 0; i < numSteps; i++) {
+            const dW = Math.sqrt(dt) * normalDistribution();
+            const k = a * (b - yValues[i]) * dt + sigma * dW;
+            yValues.push(yValues[i] + k);
+        }
+        console.log(yValues);
+        addLine(xValues, yValues);
+        yValues = [X0];
+    }
+
+
 }
 
 //   --------------------
 // Function to generate general stocastics process, it takes as input a,b,sigma,X0,dt, T and can process any EDS
-function stochasticRungeKuttaMethod(a, b, X0, sigma, dt, T) {
-    const numSteps = 100;
+function stochasticRungeKuttaMethod() {
+    const numSteps = parseInt(document.getElementById("SDENumSteps").value);
+    const a = parseFloat(document.getElementById("SDEB").value);
+    const b = parseFloat(document.getElementById("SDEB").value);
+    const X0= parseFloat(document.getElementById("SDEX0").value);
+    const sigma = parseFloat(document.getElementById("SDESigma").value);
+    const dt = parseFloat(document.getElementById("SDEDt").value);
     let X = [X0];
+    initializeGraph2("Runge kutta general method");
+    canvas2.style.display = "block";
+    const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    for (let j = 0; j < numberOfLine; j++){
+        for (let i = 0; i < numSteps; i++) {
+            const dW1 = Math.sqrt(dt) * normalDistribution();
+            const k1 = a * (b - X[i]) * dt + sigma * dW1;
+            const dW2 = Math.sqrt(dt) * normalDistribution();
+            const k2 = a * (b - (X[i] + 0.5 * k1)) * dt + sigma * dW2;
 
-    for (let i = 0; i < numSteps; i++) {
-        const dW1 = Math.sqrt(dt) * normalDistribution();
-        const k1 = a * (b - X[i]) * dt + sigma * dW1;
-        const dW2 = Math.sqrt(dt) * normalDistribution();
-        const k2 = a * (b - (X[i] + 0.5 * k1)) * dt + sigma * dW2;
-
-        const increment = k2;
-        X.push(X[i] + increment);
+            const increment = k2;
+            X.push(X[i] + increment);
+        }
+        addLine(xValues, X);
+        X = [X0];
     }
+}
 
-    return X;
+function clickSDE() {
+    destroyCanvas();
+    stochasticEulerMethod();
+    stochasticRungeKuttaMethod();
 }
 
 function normalDistribution() {
@@ -680,8 +714,8 @@ function addLine(xValues, yValues) {
         borderColor: color,
         data: yValues
     };
-    canvasArr[canvasArr.length-1].data.datasets.push(newDataset);
-    canvasArr[canvasArr.length-1].data.labels = xValues;
-    canvasArr[canvasArr.length-1].update();
+    canvasArr[canvasArr.length - 1].data.datasets.push(newDataset);
+    canvasArr[canvasArr.length - 1].data.labels = xValues;
+    canvasArr[canvasArr.length - 1].update();
 }
 

@@ -47,7 +47,6 @@ button:hover {
   background-color: #0056a7;
 }
 
-/* Canvas style */
 .canvasWrapper {
   width: 100%;
   resize: both;
@@ -58,16 +57,14 @@ button:hover {
 
 #container-canvas{
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
   margin: 0 auto;
 }
 
 #canvas1,
 #canvas2{
-  width: 50%;
+  width: 44%;
   margin: 10px auto ;
-  position: relative;
+  position: absolute;
   display: none;
   background-color: lightgray;
 }
