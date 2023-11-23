@@ -365,7 +365,7 @@ function generateCoxIngersollRoss(methodFlag) {
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            
+                
             if (methodFlag == 0){
                 newValue =  k * (theta - yValues[i]) * dt + sigma * Math.sqrt(yValues[i]) * dW;
             }else if (methodFlag == 1){
@@ -389,13 +389,16 @@ function clickCoxIngersollRoss(){
 
 //   --------------------
 // Function to generate Black-Karasinski
-function generateBlackKarasinski() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateBlackKarasinski(methodFlag) {
     const numSteps = parseInt(document.getElementById("bkNumSteps").value);
-    initializeGraph("Black-Karasinski");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    if (methodFlag == 0){
+        initializeGraph("Black-Karasinski");
+        canvas1.style.display = "block";
+    }else if (methodFlag == 1){
+        initializeGraph2("Black-Karasinski");
+        canvas2.style.display = "block";
+    }
     const theta1 = parseFloat(document.getElementById("BKTheta1").value);
     const theta2 = parseFloat(document.getElementById("BKTheta2").value);
     const a = parseFloat(document.getElementById("BKA").value);
@@ -403,28 +406,44 @@ function generateBlackKarasinski() {
     const R0 = parseFloat(document.getElementById("BKR0").value);
     const dt = parseFloat(document.getElementById("BKDt").value);
     let yValues = [R0];
-
+    let newValue = 0;
     for (let j = 0; j < numberOfLine; j++) {
 
         for (let i = 0; i < numSteps; i++) {
             const dW = Math.sqrt(dt) * normalDistribution();
-            const res = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
-            yValues.push(yValues[i] + res);
+            if(methodFlag == 0){
+                newValue = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+            }else if (methodFlag == 1){
+                let val = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i]))) * dt + sigma * Math.sqrt(yValues[i]) * dW;
+                newValue = ((theta1 + (theta2 * i)) - (a * Math.log(yValues[i])))* val * dt + sigma * Math.sqrt(yValues[i]) * dW;
+            }
+            yValues.push(yValues[i] + newValue);
+            newValue = 0;
         }
         addLine(xValues, yValues);
         yValues = [R0];
     }
 }
 
+function clickBlackKarasinski(){
+    destroyCanvas();
+    generateBlackKarasinski(0);
+    generateBlackKarasinski(1);
+}
+
 //   --------------------
 // Function to generate Heston
-function generateHeston() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateHeston(methodFlag) {
     let numSteps = parseInt(document.getElementById("hNumSteps").value);
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
-    initializeGraph("Heston");
+    if (methodFlag == 0){
+        initializeGraph("Heston");
+        canvas1.style.display = "block";
+    }else if (methodFlag == 1){
+        initializeGraph2("Heston");
+        canvas2.style.display = "block";
+    }
+
     const mu = parseFloat(document.getElementById("HMu").value);
     const k = parseFloat(document.getElementById("HK").value);
     const theta = parseFloat(document.getElementById("HTheta").value);
@@ -434,31 +453,45 @@ function generateHeston() {
     const dt = parseFloat(document.getElementById("HDt").value);
     let yValues = [S0];
     let v_t = [v0];
-
+    let S_t = 0;
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW1 = Math.sqrt(dt) * normalDistribution();
             v_t.push((k * (theta - v_t[i]) * dt + sigma * Math.sqrt(v_t[i]) * dW1) + v_t[i]);
             const dW2 = Math.sqrt(dt) * normalDistribution();
-            const S_t = mu * yValues[i] * dt + Math.sqrt(v_t[i]) * yValues[i] * dW2;
+            if(methodFlag == 0){
+                S_t = mu * yValues[i] * dt + Math.sqrt(v_t[i]) * yValues[i] * dW2;
+            }else if(methodFlag == 1){
+                let val = S_t = mu * yValues[i] * dt + Math.sqrt(v_t[i]) * yValues[i] * dW2;
+                S_t = (mu * yValues[i] * dt ) * val+ Math.sqrt(v_t[i]) * yValues[i] * dW2;
+            }
             yValues.push(yValues[i] + S_t);
         }
         addLine(xValues, yValues);
         yValues = [S0];
         v_t = [v0];
+        S_t = 0;
     }
+}
+
+function clickHeston(){
+    destroyCanvas();
+    generateHeston(0);
+    generateHeston(1);
 }
 
 //   --------------------
 // Function to generate Chen
-function generateChen() {
-    destroyCanvas();
-    canvas1.style.display = "block";
-    canvas2.style.display = "block";
+function generateChen(methodFlag) {
     let numSteps = parseInt(document.getElementById("cNumSteps").value);
-
-    initializeGraph("Chen");
     const xValues = Array.from({ length: numSteps }, (_, i) => i);
+    if (methodFlag == 0){
+        initializeGraph("Chen");
+        canvas1.style.display = "block";
+    }else if (methodFlag == 1){
+        initializeGraph2("Chen");
+        canvas2.style.display = "block";
+    }
     const R0 = parseFloat(document.getElementById("CR0").value);
     const theta0 = parseFloat(document.getElementById("CTheta0").value);
     const sigma0 = parseFloat(document.getElementById("CSigma0").value);
@@ -473,7 +506,7 @@ function generateChen() {
     let yValues = [R0];
     let theta_t = [theta0];
     let sigma_t = [sigma0];
-
+    let r_t = 0;
     for (let j = 0; j < numberOfLine; j++) {
         for (let i = 0; i < numSteps; i++) {
             const dW1 = Math.sqrt(dt) * normalDistribution();
@@ -481,16 +514,28 @@ function generateChen() {
             const dW2 = Math.sqrt(dt) * normalDistribution();
             theta_t.push(theta_t[i] + (v * (g - theta_t[i]) * dt + a * Math.sqrt(theta_t[i]) * dW2));
             const dW3 = Math.sqrt(dt) * normalDistribution();
-            const r_t = ((k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
+            if(methodFlag == 0){
+                r_t = ((k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
+            }else if(methodFlag == 1){
+                let val = ((k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
+                r_t = ((val * k * (theta_t[i] - yValues[i]) * dt + Math.sqrt(yValues[i]) * Math.sqrt(sigma_t[i]) * dW3));
+            }
             yValues.push(yValues[i] + r_t);
         }
         addLine(xValues, yValues);
         yValues = [R0];
         theta_t = [theta0];
         sigma_t = [sigma0];
+        r_t = 0;
     }
 
 
+}
+
+function clickChen(){
+    destroyCanvas();
+    generateChen(0);
+    generateChen(1);
 }
 
 //   --------------------
